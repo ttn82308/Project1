@@ -17,9 +17,9 @@
 		<div class="mr-auto"></div>
 
 		<ul class="navbar-nav ml-auto">       
-			<li class = "nav-item"><a href="#" class ="nav-link">Admin</a></li>
-			<li class = "nav-item"><a href="#" class ="nav-link">Doctor</a></li>
-			<li class = "nav-item"><a href="#" class ="nav-link">Patient</a></li>
+			<li class = "nav-item"><a href="adminlogin.php ?>" class ="nav-link text-white">Admin</a></li>
+			<li class = "nav-item"><a href="#" class ="nav-link text-white">Doctor</a></li>
+			<li class = "nav-item"><a href="#" class ="nav-link text-white">Patient</a></li>
 		</ul>
 	</nav>
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
