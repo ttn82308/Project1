@@ -8,7 +8,9 @@ if (isset($_POST['login'])) {
 
 	$username = isset($_POST['uname']) ? $_POST['uname'] : '';
 	$password = isset($_POST['pass']) ? $_POST['pass'] : '';
- 	
+ 	//$username = $_POST['uname'];
+ 	//$password = $_POST['pass'];
+
 	$error = array();
 
 	if (empty($username)) {
@@ -20,16 +22,16 @@ if (isset($_POST['login'])) {
 
  	$query = "SELECT * FROM admin WHERE username='$username' AND password='$password'";
 
- 	$result = mysqli_query($connect, $querry);
+ 	$result = mysqli_query($connect, $query);
 
  	if (mysqli_num_rows($result) ==1) {
- 		echo "<script>alert('You have login As an admin');</script>";
+ 		echo "<script>alert('You have login As an admin')</script>";
 
  		$_SESSION['admin'] = $username;
 
  		//header("Location:")
  	}else{
- 		echo "<script>alert('Invaid username or password');</script>";
+ 		echo "<script>alert('Invaild Username or Password')</script>";
  		}
 	}
 }	
@@ -45,9 +47,10 @@ if (isset($_POST['login'])) {
 </head>
 <body style="background-image: url(img/back.jpg); background-repeat: no-repeat; background-size: cover;">
 	<?php
-	include("include/header.php");?>
-	<div style="margin-top:60px"></div>
-	<div class="container">
+	include("include/header.php");
+	?>
+	<div style="margin-top:20px;"></div>
+	<div class="container"> 
 		<div class="col-md-12">
 			<div class="row">
 				<div class="col-md-3"></div>
@@ -57,24 +60,19 @@ if (isset($_POST['login'])) {
 
 						<div class="alert alert-danger">
 							<?php
-							//if (isset($error['admin'])) {
-								  //$show = $error['admin'];								
-							//}else {
-								//$show = "";
-							//} 
-							 // echo $show;
 							if (isset($error['admin'])) {
-								echo $error['admin'];
-							} else {
-								echo "";
-							}
-							?> 
+								  $show = $error['admin'];								
+							}else {
+								$show = "";
+							} 
+							 echo $show;
+							
 							 ?>  
 						</div>	
 
 						<div class="form-group">
 							<label>Username</label>
-							<input type="text" name="username" class="form-control"
+							<input type="text" name="uname" class="form-control"
 							autocomplete="off" placeholder="Enter Username">
 						</div>
 						<div class="form-group">
