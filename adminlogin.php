@@ -8,8 +8,7 @@ if (isset($_POST['login'])) {
 
 	$username = isset($_POST['uname']) ? $_POST['uname'] : '';
 	$password = isset($_POST['pass']) ? $_POST['pass'] : '';
- 	//$username = $_POST['uname'];
- 	//$password = $_POST['pass'];
+ 	
 
 	$error = array();
 
@@ -29,7 +28,8 @@ if (isset($_POST['login'])) {
 
  		$_SESSION['admin'] = $username;
 
- 		//header("Location:")
+ 		header("Location: admin/index.php");
+ 		exit();
  	}else{
  		echo "<script>alert('Invaild Username or Password')</script>";
  		}
@@ -58,11 +58,12 @@ if (isset($_POST['login'])) {
 						<img src="img/admin.jfif" class="col-md-12">
 					<form method="post" class="my-2">
 
-						<div class="alert alert-danger">
+						<div >
 							<?php
 							if (isset($error['admin'])) {
-								  $show = $error['admin'];								
-							}else {
+								  $sh = $error['admin'];	
+								  $show = "<h4 class='alert alert-danger'> ' $sh' </h4>";
+							}else {	
 								$show = "";
 							} 
 							 echo $show;
