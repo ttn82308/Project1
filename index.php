@@ -17,27 +17,31 @@
 		<div class="row">
 			<div class= "col-md-3 mx-1 shadow">
 				<img src="img/info_1.jpg" style="width: 100%;">
-				<h5 class="text-center">Click on the button for more information</h5>
-				<a href="#">
-					<button class ="btn btn-success my-3" style="margin-left: 35%;">More</button>
+				<h5 class="text-center">additional information</h5>
+				<a href="more_info.php">
+					<div class="d-flex justify-content-center">
+    					<button class="btn btn-success my-3">More info</button>
+					</div>
 				</a>
 				</div>
 			<div class= "col-md-3 mx-1 shadow">
 				<img src="img/doctor.jpg" style="width: 100%;">
-				<h5 class="text-center">Create Account so that we can take good care of you.</h5>
-				<a href="#">
-					<button class ="btn btn-success my-3" style="margin-left: 30%;">Create Account</button>
+				<h5 class="text-center">Click here for register.</h5>
+				<a href="create_account.php">
+					<div class="d-flex justify-content-center">
+    					<button class="btn btn-success my-3">Create Account</button>
+					</div>
 				</a>
 
 				</div>
 			<div class= "col-md-3 mx-1 shadow">
 				<img src="img/patient_1.jpg" style="width: 100%;">
-				<h5 class="text-center">We are employing fors doctors</h5>
-
-				<a href="#">
-					<button class ="btn btn-success my-3" style="margin-left: 30%;">Apply now</button>
+				<h5 class="text-center">We are hiring doctors</h5>
+				<a href="apply_doctor.php">
+					<div class="d-flex justify-content-center">
+    					<button class="btn btn-success my-3">Apply now</button>
+					</div>
 				</a>
-
 				</div>
 			</div>
 		</div>
