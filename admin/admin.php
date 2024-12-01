@@ -81,67 +81,85 @@
 					</div>
 
 					<div class="col-md-6">
-    <?php 
-        if (isset($_POST['add'])) {
-            $uname = trim($_POST['uname']);
-            $pass = $_POST['pass'];
-            $image = $_FILES['img']['name'];
-            $image_tmp = $_FILES['img']['tmp_name'];
+              <?php 
+                if (isset($_POST['add'])) {
+                    $uname = trim($_POST['uname']);
+                    $pass = $_POST['pass'];
+                    $image = $_FILES['img']['name'];
+                    $image_tmp = $_FILES['img']['tmp_name'];
 
-            $error = [];
+                    $error = [];
 
-            // Kiểm tra đầu vào
-            if (empty($uname)) {
-                $error[] = "Enter Admin Username"; 
-            } 
-            if (empty($pass)) {
-                $error[] = "Enter Admin Password";
-            }
-            if (empty($image)) {
-                $error[] = "Add Admin Picture";
-            } else {
-                // Kiểm tra định dạng và kích thước hình ảnh
-                $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
-                $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
-                if (!in_array($ext, $allowed_ext)) {
-                    $error[] = "Only JPG, JPEG, PNG, GIF files are allowed.";
-                } elseif ($_FILES['img']['size'] > 2 * 1024 * 1024) { // Giới hạn 2MB
-                    $error[] = "Image size must not exceed 2MB.";
-                }
-            }
-
-            // Nếu không có lỗi
-            if (empty ($error)) {
-                $hashed_pass = password_hash($pass, PASSWORD_DEFAULT);
-                $image_new_name = uniqid() . '.' . $ext; // Tạo tên file ảnh mới
-                $upload_path = "img/$image_new_name"; // Đường dẫn lưu file ảnh
-
-                if(move_uploaded_file($image_tmp,$upload_path)){
-                $stmt = $connect->prepare("INSERT INTO admin(username, password, profile) VALUES (?,?,?)");
-                $stmt->bind_param("sss", $uname, $hashed_pass, $image_new_name);
-
-                if ($stmt->execute()) {            
-                    if (move_uploaded_file($image_tmp, $upload_path)) {
-                        echo "<p class='text-success'>Admin added successfully!</p>";
-                    } else {
-                        echo "<p class='text-danger'>Failed to upload image.</p>";
+                    // Kiểm tra đầu vào
+                    if (empty($uname)) {
+                        $error[] = "Enter Admin Username"; 
+                    } 
+                    if (empty($pass)) {
+                        $error[] = "Enter Admin Password";
                     }
-                } 
-                if ($stmt -> execute()) {
-                    echo "<p class='text-danger'> SQL Error: " . $stmt->error . "</p>";
-                }
+                    if (empty($image)) {
+                        $error[] = "Add Admin Picture";
+                    } else {
+                        // Kiểm tra thư mục img/ có tồn tại hay không
+                        $folder = 'img/';
+                        
+                        if (!is_dir($folder)) {
+                            if (mkdir($folder, 755, true)) {
+                                echo "Thư mục '$folder' đã được tạo thành công.<br>";
+                                chmod($folder, 755); // Cấp quyền đầy đủ cho thư mục
+                    echo "Quyền thư mục đã được thiết lập thành công.<br>";
+                            } else {
+                                echo "Không thể tạo thư mục '$folder'.<br>";
+                                $error[] = "Không thể tạo thư mục lưu ảnh.";
+                            }
+                        } else {
+                            echo "Thư mục '$folder' đã tồn tại.<br>";
+                        }
 
-                $stmt->close(); 
-            }else{
-                echo "<p class='text-danger'>Failed to upload image.</p>";
+                        // Kiểm tra quyền ghi vào thư mục img/
+                        if (is_dir($folder) && !is_writable($folder)) {
+                            $error[] = "Thư mục không có quyền ghi. Hãy kiểm tra lại quyền thư mục.";
+                        }
+
+                        // Kiểm tra định dạng và kích thước hình ảnh
+                        $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
+                        $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
+                        if (!in_array($ext, $allowed_ext)) {
+                            $error[] = "Only JPG, JPEG, PNG, GIF files are allowed.";
+                        } elseif ($_FILES['img']['size'] > 2 * 1024 * 1024) { // Giới hạn 2MB
+                            $error[] = "Image size must not exceed 2MB.";
+                        }
+                    }
+
+                    // Nếu không có lỗi
+                    if (empty($error)) {
+                        $hashed_pass = password_hash($pass, PASSWORD_DEFAULT);
+                        $image_new_name = uniqid() . '.' . $ext; // Tạo tên file ảnh mới
+                        $upload_path = "img/$image_new_name"; // Đường dẫn lưu file ảnh
+
+                        if(move_uploaded_file($image_tmp,$upload_path)){
+                            $stmt = $connect->prepare("INSERT INTO admin(username, password, profile) VALUES (?,?,?)");
+                            $stmt->bind_param("sss", $uname, $hashed_pass, $image_new_name);
+
+                            if ($stmt->execute()) {            
+                                echo "<p class='text-success'>Admin added successfully!</p>";
+                            } else {
+                                echo "<p class='text-danger'> SQL Error: " . $stmt->error . "</p>";
+                            }
+
+                            $stmt->close(); 
+                        } else {
+                            echo "<p class='text-danger'>Failed to upload image.</p>";
+                        }
+                    } else {
+                        foreach ($error as $key => $value) {
+                            echo "<p style='color:red;'>$value</p>";
+                        }
+                    }
                 }
-            }else {
-                foreach ($error as $key => $value) {
-                    echo "<p style='color:red;'>$value</p>";
-                }
-            }
-        }
-    ?>									
+            ?>
+
+									
 						<h5 class="text-center">Add Admin</h5>
 						<form method="post " enctype="multipart/form-data">
 							<div class="form-group">

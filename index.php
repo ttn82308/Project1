@@ -27,7 +27,7 @@
 			<div class= "col-md-3 mx-1 shadow">
 				<img src="img/doctor.jpg" style="width: 100%;">
 				<h5 class="text-center">Click here for register.</h5>
-				<a href="account.php">
+				<a href="create_account.php">
 					<div class="d-flex justify-content-center">
     					<button class="btn btn-success my-3">Create Account</button>
 					</div>

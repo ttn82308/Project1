@@ -85,7 +85,11 @@ $admin_count = mysqli_num_rows($admin_query);
                 </div>
                 <!-- Job Request -->
                 <div class="col-md-3 bg-warning mx-2  my-2 dashboard-card">
-                    <h5 style="font-size: 30px;"><?php echo $request_count = 0; ?></h5>
+                    <?php 
+                    $job = mysqli_query($connect,"SELECT * FROM doctors WHERE status = 'Pendding'");
+                    $num1 = mysqli_num_rows($job);
+                     ?> 
+                    <h5 style="font-size: 30px;"><?php echo $num1; ?></h5>
                     <h6>Job Requests</h6>
                     <a href="Request.php">
                         <i class="fa fa-user-edit fa-3x dashboard-icon"></i>
