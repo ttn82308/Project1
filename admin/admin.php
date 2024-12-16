@@ -26,20 +26,20 @@
                 <h5 class="text-center">All Admin</h5>
 
                 <?php
-                // Lấy thông tin admin hiện tại từ session
+
                 $ad = $_SESSION['admin'];
 
-                // Chuẩn bị truy vấn
+
                 $query = "SELECT * FROM admin WHERE username != ?";
                 $stmt = $connect->prepare($query);
 
-                // Kiểm tra nếu chuẩn bị truy vấn thành công
-                if ($stmt) {
-                    $stmt->bind_param("s", $ad); // Ràng buộc tham số
-                    $stmt->execute(); // Thực thi truy vấn
-                    $res = $stmt->get_result(); // Lấy kết quả
 
-                    // Khởi tạo bảng HTML
+                if ($stmt) {
+                    $stmt->bind_param("s", $ad); 
+                    $stmt->execute(); 
+                    $res = $stmt->get_result(); 
+
+
                     $output = "
                     <table class='table table-bordered'>
                         <tr>
@@ -49,14 +49,14 @@
                         </tr>
                     ";
 
-                    // Kiểm tra nếu không có kết quả
+ 
                     if ($res->num_rows < 1) {
                         $output .= "<tr><td colspan='3' class='text-center text-warning'>No New Admin</td></tr>";
                     } else {
-                        // Duyệt qua từng dòng kết quả
+ 
                         while ($row = $res->fetch_assoc()) {
                             $id = $row['id'];
-                            $username = htmlspecialchars($row['username']); // Ngăn chặn XSS
+                            $username = htmlspecialchars($row['username']); 
 
                             $output .= "
                             <tr>
@@ -71,8 +71,8 @@
 
                     $output .= "
                         </tr>
-                    </table>"; // Kết thúc bảng HTML
-                    echo $output; // Hiển thị bảng
+                    </table>"; 
+                    echo $output; 
                 } else {
                     echo "<p class='text-danger'>Failed to execute query.</p>";
                 }
@@ -100,42 +100,41 @@
                     if (empty($image)) {
                         $error[] = "Add Admin Picture";
                     } else {
-                        // Kiểm tra thư mục img/ có tồn tại hay không
+
                         $folder = 'img/';
                         
                         if (!is_dir($folder)) {
                             if (mkdir($folder, 755, true)) {
-                                echo "Thư mục '$folder' đã được tạo thành công.<br>";
-                                chmod($folder, 755); // Cấp quyền đầy đủ cho thư mục
-                    echo "Quyền thư mục đã được thiết lập thành công.<br>";
+                                echo "Thư mục '$folder' create success.<br>";
+                                chmod($folder, 755); /
+                    echo "The directory permissions have been successfully set.<br>";
                             } else {
-                                echo "Không thể tạo thư mục '$folder'.<br>";
-                                $error[] = "Không thể tạo thư mục lưu ảnh.";
+                                echo "Unable to create the directory. '$folder'.<br>";
+                                $error[] = "Unable to create the directory to save the image.";
                             }
                         } else {
-                            echo "Thư mục '$folder' đã tồn tại.<br>";
+                            echo "Folder '$folder' already exists.<br>";
                         }
 
-                        // Kiểm tra quyền ghi vào thư mục img/
+
                         if (is_dir($folder) && !is_writable($folder)) {
-                            $error[] = "Thư mục không có quyền ghi. Hãy kiểm tra lại quyền thư mục.";
+                            $error[] = "The directory is not writable. Please check the directory permissions.";
                         }
 
-                        // Kiểm tra định dạng và kích thước hình ảnh
                         $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
                         $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
                         if (!in_array($ext, $allowed_ext)) {
                             $error[] = "Only JPG, JPEG, PNG, GIF files are allowed.";
-                        } elseif ($_FILES['img']['size'] > 2 * 1024 * 1024) { // Giới hạn 2MB
+                        } elseif ($_FILES['img']['size'] > 2 * 1024 * 1024) { 
                             $error[] = "Image size must not exceed 2MB.";
                         }
                     }
 
-                    // Nếu không có lỗi
+
                     if (empty($error)) {
                         $hashed_pass = password_hash($pass, PASSWORD_DEFAULT);
-                        $image_new_name = uniqid() . '.' . $ext; // Tạo tên file ảnh mới
-                        $upload_path = "img/$image_new_name"; // Đường dẫn lưu file ảnh
+                        $image_new_name = uniqid() . '.' . $ext; 
+                        $upload_path = "img/$image_new_name"; 
 
                         if(move_uploaded_file($image_tmp,$upload_path)){
                             $stmt = $connect->prepare("INSERT INTO admin(username, password, profile) VALUES (?,?,?)");
@@ -201,8 +200,8 @@
                     })
                     .then(response => response.text())
                     .then(data => {
-                        alert(data); // Hiển thị kết quả
-                        location.reload(); // Tải lại trang
+                        alert(data); 
+                        location.reload(); 
                     })
                     .catch(err => console.error(err));
                 }

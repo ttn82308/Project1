@@ -1,9 +1,9 @@
 <?php 
 session_start();
 
-if (isset($_SESSION['admin'])) {
+if (isset($_SESSION['doctor'])) {
 
-	unset($_SESSION['admin']);
+	unset($_SESSION['doctor']);
 	
 	session_destroy();
 

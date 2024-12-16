@@ -1,141 +1,184 @@
-<?php 
-
+<?php
 include("include/connection.php");
 
-	if (isset($_POST['apply'])) {
+function sanitize_input($input) {
+    return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
+}
 
-		$firstname = isset($_POST['fname']) ? $_POST['fname'] : '';
-		$surname = isset($_POST['sname']) ? $_POST['sname'] : '';
-		$username = isset($_POST['uname']) ? $_POST['uname'] : '';
-		$email = isset($_POST['email']) ? $_POST['email'] : '';
-		$gender = isset($_POST['gender']) ? $_POST['gender'] : '';
-		$phone = isset($_POST['phone']) ? $_POST['phone'] :'';
-		$country = isset($_POST['country']) ? $_POST['country'] : '';
-		$password = isset($_POST['pass']) ? $_POST['pass'] : '';
-		$confirm_password = isset($_POST['con_pass']) ? $_POST['con_pass'] : '';
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
+    $firstname = sanitize_input($_POST['fname'] ?? '');
+    $surname = sanitize_input($_POST['sname'] ?? '');
+    $username = sanitize_input($_POST['uname'] ?? '');
+    $email = sanitize_input($_POST['email'] ?? '');
+    $gender = $_POST['gender'] ?? '';
+    $phone = sanitize_input($_POST['phone'] ?? '');
+    $country = $_POST['country'] ?? '';
+    $password = $_POST['pass'] ?? '';
+    $confirm_password = $_POST['con_pass'] ?? '';
 
+    $error = [];
 
-		$error = array();
+    if (empty($firstname)) {
+        $error['fname'] = "First name is required";
+    }
+    if (empty($surname)) {
+        $error['sname'] = "Surname is required";
+    }
+    if (empty($username)) {
+        $error['uname'] = "Username is required";
+    }
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error['email'] = "A valid email is required";
+    }
+    if (empty($gender)) {
+        $error['gender'] = "Please select your gender";
+    }
+    if (empty($phone) || !is_numeric($phone)) {
+        $error['phone'] = "A valid phone number is required";
+    }
+    if (empty($country)) {
+        $error['country'] = "Please select your country";
+    }
+    if (empty($password)) {
+        $error['pass'] = "Password is required";
+    } else if (strlen($password) < 8 || !preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password)) {
+        $error['pass'] = "Password must be at least 8 characters long and include letters and numbers";
+    }
+    if ($password !== $confirm_password) {
+        $error['con_pass'] = "Passwords do not match";
+    }
 
-		if (empty($firstname)) {
-			$error['apply'] = "Enter firstname";
-		}else if (empty($surname)) {
-			$error['apply'] ="Enter surname ";
-		}else if (empty($username)) {
-			$error['apply'] ="Enter username";
-		}else if (empty($email)) {
-			$error['apply'] ="Enter email";
-		}else if (empty($gender == "")) {
-			$error['apply'] ="Select your gender";
-		}else if (empty($phone)) {
-			$error['apply'] ="Enter your phone number ";
-		}else if (empty($country =="")) {
-			$error['apply'] ="Select your country ";
-		}else if (empty($password)) {
-			$error['apply'] ="Enter password";
-		}else if (empty($confirm_password != $password)) {
-			$error['apply'] ="password does not match";
-		}
+    if (empty($error)) {
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-		if (count($error) == 0) {
-			$query ="INSERT INTO doctors( firstname, surname, username, Email, gender, phone, country, password, salary, data_reg, status, profile) VALUES(`firstname`, `surname`, `username`, `Email`, `gender`, `phone`, `country`, `password`, '0', NOW(), 'Pending', 'doctor.jpg')";
-			$result = mysqli_query($connect,$query);
+        $query = "INSERT INTO doctor (firstname, surname, username, email, gender, phone, country, password, salary, data_reg, status, profile) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, NOW(), 'Pendding', 'doctor.jpg')";
+        $stmt = $connect->prepare($query);
+        $stmt->bind_param("ssssssss", $firstname, $surname, $username, $email, $gender, $phone, $country, $hashed_password);
 
-			if ($result) {
-				echo "<script>alert('You have successed Applid')</script>";
-				header("Location: doctorlogin.php");
-			}else{
-				echo "<script>alert('Failed')</script>";
-			}
-		}
-
-
-
-	}
-
-		if (isset($error['apply'])) {
-			$s = $error['apply'];
-
-			$show = "<h5 class = 'text-center alert alert-danger'>$s</h5>";
-		}else{
-			$show = "";
-		}
- ?>
+        if ($stmt->execute()) {
+            echo "<script>alert('Application successful!');</script>";
+            header("Location: doctorlogin.php");
+            exit();
+        } else {
+            $error['general'] = "Failed to apply. Please try again later.";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Apply Now</title>
+    <title>Apply Now</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
 </head>
-<body style="background-image: url(img/back.jpg); background-size: cover; background-repeat: no-repeat;">
-	<?php 
-	include("include/header.php");
-	 ?>
+<body style="background-image: url('img/back.jpg'); background-size: cover; background-repeat: no-repeat;">
+<?php include("include/header.php"); ?>
 
-	 <div class="container-fluid">
-	 	<div class="col-md-12">
-	 		<div class="row">
-	 			<div class="col-md-3"></div>
-	 			<div class="col-md-6 jumbotron my-3">
-	 				<h5 class="text-center">Apply Now</h5>
-	 				<div>
-	 					<?php echo $show; ?>
-	 				</div>
-	 				<form method="post">
-	 				<div class="form-group">
-	 					<label>First Name</label>
-	 					<input type="text" name="fname" class="form-control" autocomplete="off" placeholder="Enter Firstname" value="<?php if(isset($_POST['fname'])) echo $_POST['fname']; ?>">
-	 				</div>
-	 				<div class="form-group">
-	 					<label>SurName</label>
-	 					<input type="text" name="sname" class="form-control" autocomplete="off" placeholder="Enter Surname"value="<?php if(isset($_POST['sname'])) echo $_POST['sname']; ?>">
-	 				</div>
-	 				<div class="form-group">
-	 					<label>User Name</label>
-	 					<input type="text" name="uname" class="form-control" autocomplete="off" placeholder="Enter Username"value="<?php if(isset($_POST['uname'])) echo $_POST['uname']; ?>">
-	 				</div>
-	 				<div class="form-group">
-	 					<label>Email</label>
-	 					<input type="text" name="email" class="form-control" autocomplete="off" placeholder="Enter Email"value="<?php if(isset($_POST['email'])) echo $_POST['email']; ?>">
-	 				</div>
-	 				<div class="form-group">
-	 					<label>Gender</label>
-	 					<select name="Gender">
-	 						<option value="">Select Gender</option>
-	 						<option value="Male">Male</option>
-	 						<option value="Female">Female</option>
-	 					</select>
-	 				</div> 
-	 				<div>
-	 					<div class="form-group">
-	 					<label>Phone Number</label>
-	 					<input type="number" name="phone" class="form-control" autocomplete="off" placeholder="Enter Phone Number"value="<?php if(isset($_POST['phone'])) echo $_POST['phone']; ?>">
-	 				</div>
-	 				<div class="form-group">
-	 					<label>Country</label>
-	 					<select name="Gender" class="form-control">
-	 						<option value="">Select Country</option>
-	 						<option value="America">America</option>
-	 						<option value="Japan">Japan</option>
-	 						<option value="China">China</option>
-	 						<option value="VietNam">VietNam</option>
-	 					</select>
-	 				</div>
-	 				<div class="form-group">
-	 					<label>Password</label>
-	 					<input type="password" name="pass" class="form-control" autocomplete="off" placeholder="Enter Password">
-	 				</div>
-	 				<div class="form-group">
-	 					<label>Confirm Password</label>
-	 					<input type="password" name="con_pass" class="form-control" autocomplete="off" placeholder="Confirm password">
-	 				</div>
-	 				<input type="submit" name="apply" value="Apply Now" class="btn btn-success">
-	 				<p>I already have an account <a href="doctorlogin.php">Click here</a></p>
-	 				</div>
-	 				</form>
-	 			</div>
-	 			<div class="col-md-3"></div>
-	 		</div>
-	 	</div>
-	 </div>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 jumbotron my-3">
+                <h5 class="text-center">Apply Now</h5>
+                <?php if (isset($error['general'])): ?>
+                    <div class="alert alert-danger text-center">
+                        <?php echo $error['general']; ?>
+                    </div>
+                <?php endif; ?>
+
+                <form method="POST" action="" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="fname">First Name:</label>
+                        <input type="text" name="fname" class="form-control" value="<?php echo htmlspecialchars($firstname ?? ''); ?>">
+                        <?php if (isset($error['fname'])): ?>
+                            <div class="text-danger"><?php echo $error['fname']; ?></div>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sname">Surname:</label>
+                        <input type="text" name="sname" class="form-control" value="<?php echo htmlspecialchars($surname ?? ''); ?>">
+                        <?php if (isset($error['sname'])): ?>
+                            <div class="text-danger"><?php echo $error['sname']; ?></div>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="uname">Username:</label>
+                        <input type="text" name="uname" class="form-control" value="<?php echo htmlspecialchars($username ?? ''); ?>">
+                        <?php if (isset($error['uname'])): ?>
+                            <div class="text-danger"><?php echo $error['uname']; ?></div>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" class="form-control" value="<?php echo htmlspecialchars($email ?? ''); ?>">
+                        <?php if (isset($error['email'])): ?>
+                            <div class="text-danger"><?php echo $error['email']; ?></div>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select name="gender" class="form-control">
+                            <option value="Male" <?php echo (isset($gender) && $gender == 'Male') ? 'selected' : ''; ?>>Male</option>
+                            <option value="Female" <?php echo (isset($gender) && $gender == 'Female') ? 'selected' : ''; ?>>Female</option>
+                            <option value="Other" <?php echo (isset($gender) && $gender == 'Other') ? 'selected' : ''; ?>>Other</option>
+                        </select>
+                        <?php if (isset($error['gender'])): ?>
+                            <div class="text-danger"><?php echo $error['gender']; ?></div>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input type="text" name="phone" class="form-control" value="<?php echo htmlspecialchars($phone ?? ''); ?>">
+                        <?php if (isset($error['phone'])): ?>
+                            <div class="text-danger"><?php echo $error['phone']; ?></div>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <select name="country" class="form-control">
+                            <option value="">Select Country</option>
+                            <option value="America" <?php echo (isset($country) && $country == 'Country1') ? 'selected' : ''; ?>>America</option>
+                            <option value="Pakistan" <?php echo (isset($country) && $country == 'Country2') ? 'selected' : ''; ?>>Pakistan</option>
+                            <option value="China" <?php echo (isset($country) && $country == 'Country2') ? 'selected' : ''; ?>>China</option>
+                            <option value="Viet nam" <?php echo (isset($country) && $country == 'Country2') ? 'selected' : ''; ?>>Viet nam</option>
+                            <option value="Japan" <?php echo (isset($country) && $country == 'Country2') ? 'selected' : ''; ?>>Japan</option>
+                            <option value="Thailand" <?php echo (isset($country) && $country == 'Country2') ? 'selected' : ''; ?>>Thailand</option>
+                        </select>
+                        <?php if (isset($error['country'])): ?>
+                            <div class="text-danger"><?php echo $error['country']; ?></div>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pass">Password:</label>
+                        <input type="password" name="pass" class="form-control">
+                        <?php if (isset($error['pass'])): ?>
+                            <div class="text-danger"><?php echo $error['pass']; ?></div>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="con_pass">Confirm Password:</label>
+                        <input type="password" name="con_pass" class="form-control">
+                        <?php if (isset($error['con_pass'])): ?>
+                            <div class="text-danger"><?php echo $error['con_pass']; ?></div>
+                        <?php endif; ?>
+                    </div>
+
+                    <button type="submit" name="apply" class="btn btn-primary btn-block">Apply</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

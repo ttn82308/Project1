@@ -3,16 +3,15 @@ session_start();
 include("../include/header.php");
 include("../include/connection.php");
 
-// Kiểm tra kết nối cơ sở dữ liệu
 if (!$connect) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Truy vấn và kiểm tra lỗi
+
 $admin_query = mysqli_query($connect, "SELECT * FROM admin");
 
 if ($admin_query === false) {
-    // Nếu có lỗi trong truy vấn SQL, dừng và hiển thị thông báo lỗi
+ 
     die('Error executing query: ' . mysqli_error($connect));
 }
 
@@ -61,7 +60,12 @@ $admin_count = mysqli_num_rows($admin_query);
                 </div>
                 <!-- Doctors -->
                 <div class="col-md-3 bg-info mx-2 dashboard-card">
-                    <h5 style="font-size: 30px;"><?php echo $doctor_count = 0; ?></h5>
+                    <?php 
+                    $doctor = mysqli_query($connect,"SELECT * FROM doctor WHERE status ='Approved'");
+
+                    $doctor_count = mysqli_num_rows($doctor);
+                     ?>
+                    <h5 style="font-size: 30px;"><?php echo $doctor_count; ?></h5>
                     <h6>Doctors</h6>
                     <a href="doctor.php">
                         <i class="fa fa-user-md fa-3x dashboard-icon"></i>
@@ -86,12 +90,14 @@ $admin_count = mysqli_num_rows($admin_query);
                 <!-- Job Request -->
                 <div class="col-md-3 bg-warning mx-2  my-2 dashboard-card">
                     <?php 
-                    $job = mysqli_query($connect,"SELECT * FROM doctors WHERE status = 'Pendding'");
-                    $num1 = mysqli_num_rows($job);
-                     ?> 
-                    <h5 style="font-size: 30px;"><?php echo $num1; ?></h5>
+                        $job = mysqli_query($connect,"SELECT * FROM doctor WHERE status = 'Pendding'");
+
+                        $request_count = mysqli_num_rows($job);
+
+                     ?>
+                    <h5 style="font-size: 30px;"><?php echo $request_count; ?></h5>
                     <h6>Job Requests</h6>
-                    <a href="Request.php">
+                    <a href="job_request.php">
                         <i class="fa fa-user-edit fa-3x dashboard-icon"></i>
                     </a>
                 </div>
