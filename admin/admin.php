@@ -106,7 +106,7 @@
                         if (!is_dir($folder)) {
                             if (mkdir($folder, 755, true)) {
                                 echo "Thư mục '$folder' create success.<br>";
-                                chmod($folder, 755); /
+                                chmod($folder, 755);
                     echo "The directory permissions have been successfully set.<br>";
                             } else {
                                 echo "Unable to create the directory. '$folder'.<br>";

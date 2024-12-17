@@ -10,6 +10,7 @@
 
 	<?php 
 	include("../include/header.php");
+	include("../include/connection.php");
 	 ?>
 
 	 <div class="container-fluid">
@@ -48,7 +49,7 @@
 	 										<h5 class="text-white">Patient</h5>
 	 									</div>
 	 									<div class="col-md-4">
-	 										<a href="#"><i class="fa fa-procedures fa-3x my-4" style="color: white;"></i></a>
+	 										<a href="patient.php"><i class="fa fa-procedures fa-3x my-4" style="color: white;"></i></a>
 	 									</div>
 	 								</div>
 	 							</div>
