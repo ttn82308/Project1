@@ -20,8 +20,6 @@ $admin_count = mysqli_num_rows($admin_query);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
@@ -52,6 +50,11 @@ $admin_count = mysqli_num_rows($admin_query);
             <div class="row">
                 <!-- Admin Card -->
                 <div class="col-md-3 bg-success mx-2 dashboard-card">
+                     <?php 
+                    $admin = mysqli_query($connect,"SELECT * FROM admin");
+
+                    $admin_count = mysqli_num_rows($admin);
+                     ?>
                     <h5 style="font-size: 30px;"><?php echo $admin_count; ?></h5>
                     <h6>Total Admin</h6>
                     <a href="admin.php">
@@ -73,7 +76,12 @@ $admin_count = mysqli_num_rows($admin_query);
                 </div>
                 <!-- Patients -->
                 <div class="col-md-3 bg-warning mx-2 dashboard-card">
-                    <h5 style="font-size: 30px;"><?php echo $patient_count = 0; ?></h5>
+                    <?php 
+                    $patient = mysqli_query($connect,"SELECT * FROM patient");
+
+                    $patient_count = mysqli_num_rows($patient);
+                     ?>
+                    <h5 style="font-size: 30px;"><?php echo $patient_count; ?></h5>
                     <h6>Patients</h6>
                     <a href="patient.php">
                         <i class="fa fa-user-injured fa-3x dashboard-icon"></i>
@@ -81,7 +89,12 @@ $admin_count = mysqli_num_rows($admin_query);
                 </div>
                 <!-- Report -->
                 <div class="col-md-3 bg-danger mx-2  my-2 dashboard-card">
-                    <h5 style="font-size: 30px;"><?php echo $report_count = 0; ?></h5>
+                    <?php 
+                    $report = mysqli_query($connect,"SELECT * FROM report");
+
+                    $report_count = mysqli_num_rows($report);
+                     ?>
+                    <h5 style="font-size: 30px;"><?php echo $report_count; ?></h5>
                     <h6>Report</h6>
                     <a href="report.php">
                         <i class="fa fa-flag fa-3x dashboard-icon"></i>

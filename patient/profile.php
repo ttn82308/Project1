@@ -1,156 +1,180 @@
+<?php 
+    session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Patient Profile</title>
+    <title>Patient Profile Page</title>
 </head>
 <body>
-<?php
-	include("../include/header.php");
-	include("../include/connection.php");
-	?>
-	<div class="container-fluid">
-		<div class="col-md-12">
-			<div class="row">
-				<div class="col-md-2" style="margin-left:-30px;">
-					<?php
-					include("sidenav.php");
-					$patient = $_SESSION['patient'];
-					$query = "SELECT * FROM patient WHERE username = '$patient'";
-					$res = mysqli_query($connect,$query);
-					$row = mysqli_fetch_array($res);
 
-					?>
-				</div>
-				<div class="col-md-12">
-					<div class="row">
-						<div class="col-md-6">
+<?php 
+    include("../include/header.php");
+    include("../include/connection.php");
+?>
 
-							<?php
-								if(isset($_POST['upload'])){
-									$img = $_FILES['img']['name'];
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-2" style="margin-left: -30px;">
+                <?php 
+                    include("sidenav.php");
+                    include("../include/connection.php");
+                ?>
+            </div>
 
-									if(empty($img)){
+            <div class="col-md-10">
+                <div class="container-fluid">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <?php 
+                                    $patient = $_SESSION['patient'];
+                                    $query = "SELECT * FROM patient WHERE username ='$patient'";
+                                    $res = mysqli_query($connect, $query);
+                                    $row = mysqli_fetch_array($res);
 
-									}else{
-										$query = "UPDATE patient SET profile = '$img' WHERE username = '$patient'";
-										$res = mysqli_query($connect,$query);
+                                    if (isset($_POST['upload'])) {
+                                        $img = $_FILES['img']['name'];
+                                        $tmp_name = $_FILES['img']['tmp_name'];
+                                        $file_type = $_FILES['img']['type'];
 
-										if($res){
-											move_uploaded_file($_FILES['img']['tmp_name'], "img/$img");
-										}
-									}
-								}
+                                        if (!in_array($file_type, ['image/jpeg', 'image/png', 'image/jpg'])) {
+                                            echo "Only JPG, PNG, and JPEG files are allowed.";
+                                        } else {
+                                            $upload_path = "img/$img";
+                                            if (move_uploaded_file($tmp_name, $upload_path)) {
+                                                $query = "UPDATE patient SET profile = '$img' WHERE username = '$patient'";
+                                                $res = mysqli_query($connect, $query);
+                                                if ($res) {
+                                                    echo "Profile image updated successfully!";
+                                                } else {
+                                                    echo "Error updating profile image.";
+                                                }
+                                            } else {
+                                                echo "Error uploading file.";
+                                            }
+                                        }
+                                    }
+                                ?>
 
+                                <form method="post" enctype="multipart/form-data">
+                                    <?php echo "<img src='img/".$row['profile']."' style='height: 250px;' class='my-3'>"; ?>
+                                    <input type="file" name="img" class="form-control my-1">
+                                    <input type="submit" name="upload" class="btn btn-success" value="Update Profile">
+                                    <div class="my-3">
+                                        <table class="table table-bordered">                                     
+                                            <tr>
+                                                <th colspan="2" class="text-center">My Detail</th>
+                                            </tr>
+                                            <tr>
+                                                <td>Firstname</td>
+                                                <td><?php echo $row['firstname']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Surname</td>
+                                                <td><?php echo $row['surname']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Username</td>
+                                                <td><?php echo $row['username']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Email</td>
+                                                <td><?php echo $row['email']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Phone No.</td>
+                                                <td><?php echo $row['phone']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Gender</td>
+                                                <td><?php echo $row['gender']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Country</td>
+                                                <td><?php echo $row['country']; ?></td>
+                                            </tr>
+                                            
+                                        </table>
+                                    </div>
+                                </form>
+                            </div>
 
+                            <div class="col-md-6">
+                                <h5 class="text-center my-2">Change Username</h5>
+                                <?php 
+                                    if (isset($_POST['change_uname'])) {
+                                        $uname = $_POST['uname'];
+                                        if (!empty($uname)) {
+                                            $query = "UPDATE patient SET username='$uname' WHERE username ='$patient'";
+                                            $res = mysqli_query($connect, $query);
+                                            if ($res) {
+                                                $_SESSION['patient'] = $uname;
+                                            }
+                                        }
+                                    }
+                                ?>
+                                <form method="post">
+                                    <label>Change Username</label>
+                                    <input type="text" name="uname" class="form-control" autocomplete="off" placeholder="Enter Username"><br>
+                                    <input type="submit" name="change_uname" class="btn btn-success" value="Change Username">
+                                </form>
+                                <br><br>
 
-							?>
+                                <h5 class="text-center my-2">Change Password</h5>
 
-							<h5>My profile</h5>
-							<form method="post" enctype="multipart/form-data">
-								<?php
-								echo "<img src="img/" class="col-md-12" style="height: 250px;">";
-								?>
-								<input type="file" name="img" class="form-control my-2">
-								<input type="sumbit" name="upload" class="btn btn-info" value="Upload Profile">
-							</form>
+                                <?php 
+                                    if (isset($_POST['change_pass'])) {
+                                        $old = $_POST['old_pass'];
+                                        $new = $_POST['new_pass'];
+                                        $con = $_POST['con_pass'];
 
-							<table class="table table-bordered">
-								<tr>
-									<th colspan="2" class="text-center">My Details</th>
-								</tr>
-								<tr>
-									<td>Firstname</td>
-									<td><?php echo $row['firstname'];?></td>
-								</tr>
-								<tr>
-									<td>Surname</td>
-									<td><?php echo $row['surname'];?></td>
-								</tr>
-								<tr>
-									<td>Username</td>
-									<td><?php echo $row['uname'];?></td>
-								</tr>
-								<tr>
-									<td>Email</td>
-									<td><?php echo $row['email'];?></td>
-								</tr>
-								<tr>
-									<td>Phone Number</td>
-									<td><?php echo $row['phone'];?></td>
-								</tr>
-								<tr>
-									<td>Gender</td>
-									<td><?php echo $row['gender'];?></td>
-								</tr>
-								<tr>
-									<td>Country</td>
-									<td><?php echo $row['country'];?></td>
-								</tr>
-							</table>
+                                        $query = "SELECT * FROM patient WHERE username = '$patient'";
+                                        $result = mysqli_query($connect, $query);
+                                        $row = mysqli_fetch_array($result);
 
-						</div>
-						<div class="col-md-6">
-							<h5 class="text-center">Change Username</h5>
+                                        if (!password_verify($old, $row['password'])) {
+                                            echo "Old password is incorrect.";
+                                        } elseif (empty($new)) {
+                                            echo "New password cannot be empty.";
+                                        } elseif ($new != $con) {
+                                            echo "New password and confirmation do not match.";
+                                        } else {
+                                            $new_hashed = password_hash($new, PASSWORD_DEFAULT);
+                                            $update_query = "UPDATE patient SET password = '$new_hashed' WHERE username = '$patient'";
+                                            mysqli_query($connect, $update_query);
+                                            echo "Password changed successfully!";
+                                        }
+                                    }
+                                ?>
 
-							<?php
-								if(isset($_POST['update'])){
-									$uname = $_POST['uname'];
+                                <form method="post">
+                                    <div class="form-group">
+                                        <label>Old Password</label>
+                                        <input type="password" name="old_pass" class="form-control" autocomplete="off" placeholder="Enter Old Password">
+                                    </div>
 
-									if(empty($uname)){
+                                    <div class="form-group">
+                                        <label>New Password</label>
+                                        <input type="password" name="new_pass" class="form-control" autocomplete="off" placeholder="Enter New Password">
+                                    </div>
 
-									}else{
-										$query = "UPDATE patient SET username ='$uname' WHERE username = '$patient'";
-										$res = mysqli_query($connect,$query);
+                                    <div class="form-group">
+                                        <label>Confirm Password</label>
+                                        <input type="password" name="con_pass" class="form-control" autocomplete="off" placeholder="Enter Confirm Password">
+                                    </div>
+                                    <input type="submit" name="change_pass" class="btn btn-info" value="Change Password">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-										if($res) {
-											$_SESSION['patient'] =$uname;
-										}
-									}
-								}
-								?>
+        </div>
+    </div>
+</div>
 
-							<form method="post">
-								<label>Enter Username</label>
-								<input type="text" name="uname" class="form-control" autocomplete="off" placeholder="Enter Username">
-								<input type="submit" name="update" class="btn btn-info my-2" value="Update Username">
-							</form>
-
-							<?php
-							if(isset($_POST['change'])){
-								$old = $_POST['old_pass'];
-								$new = $_POST['new_pass'];
-								$con = $_POST['con_pass'];
-
-								$q = "SELECT * FROM patient WHERE username='$patient'";
-								$re = mysqli_query($connect,$query);
-								$row = mysqli_fetch_array($re);
-								if(empty($old)){
-									echo "<script>alert('Enter Old Password')</script>";
-								}else if(empty($new)){
-									echo "<script>alert('Enter New Password')</script>";
-								}else if($con != $new) {
-									echo "<script>alert('Password do not match')</script>";
-								}else if ($old != $row['password']) {
-									echo "<script>alert('Check the Password')</script>";
-								}else{
-									$query = "UPDATE patient SET password='$new' WHERE username = '$patient'";
-									mysqli_query($connect,$query);
-								}
-							}
-							?>
-							<h5 class="my-4 text-center">Change Password</h5>
-							<form method="post">
-								<label>Old Password</label>
-								<input type="password" name="old_pass" class="form-control" autocomplete="off" placeholder="Enter Old Password">
-								<label>New Password</label>
-								<input type="password" name="new_pass" class="form-control" autocomplete="off" placeholder="Enter New Password">
-								<label>Confirm Password</label>
-								<input type="password" name="con_pass" class="form-control" autocomplete="off" placeholder="Enter Confirm Password">
-								<input type="submit" name="change" class="btn btn-info my-2" value = "Change Password">
-			</div>
-		</div>
-	</div>
 </body>
 </html>

@@ -10,7 +10,7 @@ if (isset($_POST['login'])) {
 
     if (empty($uname)) {
         $error['login'] = "Enter username.";
-    } else if (empty($pass)) {
+    } else if (empty($password)) {
         $error['login'] = "Enter password.";
     } else {
 
@@ -37,18 +37,18 @@ if (isset($_POST['login'])) {
         $stmt->close();
     }
 }
+$show = isset($error['login']) ? "<h5 class='text-center alert alert-danger'>{$error['login']}</h5>" : "";
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Patient Login Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body style="background-image: url(img/back.jpg); background-repeat: no-repeat; background-size: cover;">
     <?php include("include/header.php"); ?>
+
     <div class="container-fluid">
         <div class="col-md-12">
             <div class="row">

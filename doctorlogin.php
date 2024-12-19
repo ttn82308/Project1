@@ -10,7 +10,7 @@ if (isset($_POST['login'])) {
 
     if (empty($uname)) {
         $error['login'] = "Enter username.";
-    } else if (empty($pass)) {
+    } else if (empty($password)) {
         $error['login'] = "Enter password.";
     } else {
         $query = "SELECT * FROM doctor WHERE username = ?";
@@ -62,7 +62,7 @@ $show = isset($error['login']) ? "<h5 class='text-center alert alert-danger'>{$e
                     </div>
                     <form method="post">
                         <div class="form-group">
-                            <label>User name</label>
+                            <label>Username</label>
                             <input type="text" name="uname" class="form-control" autocomplete="off" placeholder="Enter Username">
                         </div>
 

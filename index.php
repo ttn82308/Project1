@@ -25,9 +25,9 @@
 				</a>
 				</div>
 			<div class= "col-md-3 mx-1 shadow">
-				<img src="img/doctor.jpg" style="width: 100%;">
+				<img src="img/patient_1.jpg" style="width: 100%;">
 				<h5 class="text-center">Click here for register.</h5>
-				<a href="create_account.php">
+				<a href="register.php">
 					<div class="d-flex justify-content-center">
     					<button class="btn btn-success my-3">Create Account</button>
 					</div>
@@ -35,9 +35,9 @@
 
 				</div>
 			<div class= "col-md-3 mx-1 shadow">
-				<img src="img/patient_1.jpg" style="width: 100%;">
+				<img src="img/doctor.jpg" style="width: 100%;">
 				<h5 class="text-center">We are hiring doctors</h5>
-				<a href="apply_doctor.php">
+				<a href="apply.php">
 					<div class="d-flex justify-content-center">
     					<button class="btn btn-success my-3">Apply now</button>
 					</div>

@@ -38,7 +38,7 @@ session_start();
 							<div class="col-md-3"></div>
 							<div class="col-md-6">
 								<?php 
-								echo "<img src='../patient/img/".$row['profile']."' class='col-md-12 my-2' style='height: 250px;'>" ?>
+								echo "<img src='../patient/img/".$row['profile']."' class='col-md-12 my-2' style='height: 500px;'>" ?>
 								<table class='table table-bordered'>
 								<tr>
 								<th class="text-center" colspan="2">Details</th>
