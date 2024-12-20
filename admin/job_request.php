@@ -1,9 +1,5 @@
 <?php 
 	session_start();
-	if (!isset($_SESSION['admin'])) { // Check if the admin is logged in
-		header("Location: ../login.php");
-		exit();
-	}
 ?>
 
 <!DOCTYPE html>
@@ -24,8 +20,8 @@
 	 			</div>
 	 			<div class="col-md-10">
 	 				<h5 class="text-center my-3">Job Requests</h5>
-	 				<div id="message"></div> <!-- For user feedback -->
-	 				<div id="show"></div> <!-- Dynamic content display -->
+	 				<div id="message"></div>
+	 				<div id="show"></div> 
 	 			</div>
 	 		</div>
 	 	</div>
@@ -44,6 +40,7 @@
 						$("#show").html(data);
 					},
 					error: function() {
+						console.log(data);
 						$("#message").html('<div class="alert alert-danger">Failed to load job requests. Please try again.</div>');
 					}
 				});

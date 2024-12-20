@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
             // Insert into database
-            $query = "INSERT INTO patient (firstname, surname, username, email, gender, phone, country, password, data_reg, profile) 
+            $query = "INSERT INTO patient (firstname, surname, username, email, gender, phone, country, password, date_reg, profile) 
                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'patient.jpg')";
             $stmt = $connect->prepare($query);
             $stmt->bind_param("ssssssss", $firstname, $surname, $username, $email, $gender, $phone, $country, $hashed_password);
