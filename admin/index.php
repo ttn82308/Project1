@@ -116,15 +116,13 @@ $admin_count = mysqli_num_rows($admin_query);
                 </div>
                 <!-- Incoming -->
                 <div class="col-md-3 bg-info mx-2  my-2 dashboard-card">
-                    <?php 
-                    $in = mysqli_query($connect,"SELECT sum(amount_paid) as profit FROM income");
+                     <?php 
+                        $income = mysqli_query($connect,"SELECT * FROM income");
 
-                    $row = mysqli_fetch_array($in);
-
-                    $inc = $row['profit'];
+                        $in_count = mysqli_num_rows($income);
 
                      ?>
-                    <h5 style="font-size: 30px;"><?php echo $inc = 0; ?></h5>
+                    <h5 style="font-size: 30px;"><?php echo $in_count; ?></h5>
                     <h6>Incomes</h6>
                     <a href="income.php">
                         <i class="fa fa-money-check-alt fa-3x dashboard-icon"></i>

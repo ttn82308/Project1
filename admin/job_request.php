@@ -22,6 +22,9 @@
 	 				<h5 class="text-center my-3">Job Requests</h5>
 	 				<div id="message"></div>
 	 				<div id="show"></div> 
+	 				<?php 
+	 				include("ajax_job_request.php");
+	 				 ?>
 	 			</div>
 	 		</div>
 	 	</div>

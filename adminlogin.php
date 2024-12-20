@@ -6,37 +6,51 @@ session_start();
 
 if (isset($_POST['login'])) {
 
-	$username = isset($_POST['uname']) ? $_POST['uname'] : '';
-	$password = isset($_POST['pass']) ? $_POST['pass'] : '';
- 	
+	// Lấy và làm sạch dữ liệu nhập vào
+	$username = isset($_POST['uname']) ? trim($_POST['uname']) : '';
+	$password = isset($_POST['pass']) ? trim($_POST['pass']) : '';
 
 	$error = array();
 
+	// Kiểm tra dữ liệu nhập
 	if (empty($username)) {
 		$error['admin'] = "Enter username";
-	}else if (empty($password)){
+	} else if (empty($password)) {
 		$error['admin'] = "Enter password";
- 	}
- if (count($error)==0) {
-
- 	$query = "SELECT * FROM admin WHERE username='$username' AND password='$password'";
-
- 	$result = mysqli_query($connect, $query);
-
- 	if (mysqli_num_rows($result) ==1) {
- 		echo "<script>alert('You have login As an admin')</script>";
-
- 		$_SESSION['admin'] = $username;
-
- 		header("Location: admin/index.php");
- 		exit();
- 	}else{
- 		echo "<script>alert('Invaild Username or Password')</script>";
- 		}
 	}
-}	
 
-?>  
+	if (count($error) == 0) {
+		// Truy vấn với prepared statement để tránh SQL Injection
+		$query = "SELECT * FROM admin WHERE username = ?";
+		$stmt = mysqli_prepare($connect, $query);
+		mysqli_stmt_bind_param($stmt, "s", $username);
+		mysqli_stmt_execute($stmt);
+		$result = mysqli_stmt_get_result($stmt);
+
+		if (mysqli_num_rows($result) == 1) {
+			$row = mysqli_fetch_assoc($result);
+			
+			// Kiểm tra mật khẩu với password_verify
+			if (password_verify($password, $row['password'])) {
+				echo "<script>alert('You have logged in as an admin')</script>";
+
+				$_SESSION['admin'] = $username;
+
+				header("Location: admin/index.php");
+				exit();
+			} else {
+				echo "<script>alert('Invalid Username or Password')</script>";
+			}
+		} else {
+			echo "<script>alert('Invalid Username or Password')</script>";
+		}
+
+		mysqli_stmt_close($stmt);
+	}
+}
+
+?>
+ 
 
 <!DOCTYPE html>
 <html>
