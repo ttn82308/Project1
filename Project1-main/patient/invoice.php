@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Invoice</title>
+    <title>Hóa đơn</title>
 </head>
 <body>
     <?php 
@@ -19,7 +19,7 @@
                     <?php include("sidenav.php"); ?>
                 </div>
                 <div class="col-md-10">
-                    <h5 class="text-center my-2">My Invoice</h5>
+                    <h5 class="text-center my-2">Hóa đơn của tôi</h5>
 
                     <?php 
                     $pat = $_SESSION['patient'];
@@ -40,18 +40,18 @@
                     <table class='table table-bordered table-striped table-hover'>
                         <tr>
                             <td>ID</td>
-                            <td>Doctor</td>
-                            <td>Patient</td>
-                            <td>Date Discharge</td>
-                            <td>Amount Paid</td>
-                            <td>Description</td>
+                            <td>Bác sĩ</td>
+                            <td>Bệnh nhân</td>
+                            <td>Ngày xuất viện</td>
+                            <td>Số tiền trả</td>
+                            <td>Mô tả</td>
                             <td>Action</td>
                         </tr>";
 
                     if ($result_invoices->num_rows < 1) {
                         $output .= "
                         <tr>
-                            <td colspan='7' class='text-center'>No Invoice Yet.</td>
+                            <td colspan='7' class='text-center'>Chưa có hóa đơn nào.</td>
                         </tr>";
                     } else {
                         while ($invoice = $result_invoices->fetch_assoc()) {
@@ -65,7 +65,7 @@
                                 <td>".$invoice['description']."</td>
                                 <td>
                                     <a href='view.php?id=".$invoice['id']."'>
-                                        <button class='btn btn-info' title='View Invoice'>View</button>
+                                        <button class='btn btn-info' title='View Invoice'>Xem</button>
                                     </a>
                                 </td>
                             </tr>";

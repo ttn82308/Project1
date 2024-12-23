@@ -65,7 +65,7 @@ if (isset($_POST['send'])) {
                 </div>
                 <!-- Invoice -->
                 <div class="col-md-3 my-2 bg-success text-white text-center py-4 mx-2">
-                    <h5>My Invoice</h5>
+                    <h5>Hóa đơn của tôi</h5>
                     <a href="invoice.php"><i class="fa fa-file-invoice-dollar fa-3x"></i></a>
                 </div>
             </div>

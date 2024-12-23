@@ -19,31 +19,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
     $error = [];
 
     // Validate input fields
-    if (empty($firstname)) $error['fname'] = "First name is required";
-    if (empty($surname)) $error['sname'] = "Surname is required";
-    if (empty($username)) $error['uname'] = "Username is required";
-    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $error['email'] = "A valid email is required";
+    if (empty($firstname)) $error['fname'] = "Cần nhập tên";
+    if (empty($surname)) $error['sname'] = "Cần nhập họ";
+    if (empty($username)) $error['uname'] = "Cần nhập tài khoản";
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $error['email'] = "Cần nhập email";
 
     // Validate gender
     $allowed_genders = ['Male', 'Female', 'Other'];
-    if (!in_array($gender, $allowed_genders)) $error['gender'] = "Please select a valid gender";
+    if (!in_array($gender, $allowed_genders)) $error['gender'] = "Cần chọn giới tính";
 
     // Validate phone
-    if (empty($phone) || !is_numeric($phone)) $error['phone'] = "A valid phone number is required";
+    if (empty($phone) || !is_numeric($phone)) $error['phone'] = "Cần nhập số điện thoại";
 
     // Validate country
-    $allowed_countries = ['America', 'Pakistan', 'China', 'Viet nam', 'Japan', 'Thailand'];
-    if (!in_array($country, $allowed_countries)) $error['country'] = "Please select a valid country";
+    $allowed_countries = ['America', 'Pakistan', 'China', 'Viet nam', 'Japan', 'Thailand', 'Australia', 'France', 'Germany', 'India', 'Canada', 'South Korea', 'United Kingdom', 'Italy', 'Spain', 'Russia', 'Brazil', 'Mexico', 'South Africa', 'Argentina'];
+    if (!in_array($country, $allowed_countries)) $error['country'] = "Cần chọn quốc gia bạn đang ở";
 
     // Validate password
     if (empty($password)) {
-        $error['pass'] = "Password is required";
+        $error['pass'] = "Mật khẩu là bắt buộc.";
     } else if (strlen($password) < 8 || !preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password)) {
-        $error['pass'] = "Password must be at least 8 characters long and include letters and numbers";
+        $error['pass'] = "Mật khẩu phải có ít nhất 8 ký tự và bao gồm cả chữ cái và số.";
     }
 
     // Confirm passwords match
-    if ($password !== $confirm_password) $error['con_pass'] = "Passwords do not match";
+    if ($password !== $confirm_password) $error['con_pass'] = "Mật khẩu không đúng";
 
     // Proceed if no errors
     if (empty($error)) {
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
         $stmt_check->execute();
         $result_check = $stmt_check->get_result();
         if ($result_check->num_rows > 0) {
-            $error['email'] = "This email is already registered.";
+            $error['email'] = "email này đã đước đăng kí.";
         } else {
             // Hash the password
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -66,11 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
             $stmt->bind_param("ssssssss", $firstname, $surname, $username, $email, $gender, $phone, $country, $hashed_password);
 
             if ($stmt->execute()) {
-                echo "<script>alert('Application successful!');</script>";
+                echo "<script>alert('Đăng ký thành công!');</script>";
                 header("Location: patientlogin.php");
                 exit();
             } else {
-                $error['general'] = "Failed to register. Please try again later.";
+                $error['general'] = "Đăng ký thất bại. Thử lại!";
             }
         }
     }

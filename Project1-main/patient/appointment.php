@@ -79,12 +79,12 @@
 	 						<div class="col-md-3"></div>
 	 						<div class="col-md-6 jumbotron">
 	 							<form method="post">
-	 								<label>Appointment Date</label>
+	 								<label>Đặt lịch Khám</label>
 	 								<input type="date" name="date" class="form-control" required>
-
-	 								<label>Symptoms</label>
-	 								<input type="text" name="sym" class="form-control" autocomplete="off" placeholder="Enter Symptoms" required>
-	 								<input type="submit" name="book" class="btn btn-info my-2" value="Book Appointment">
+	 								<br>
+	 								<label>Triệu chứng</label>
+	 								<input type="text" name="sym" class="form-control" autocomplete="off" placeholder="Nhập triệu chứng" required>
+	 								<input type="submit" name="book" class="btn btn-info my-2" value="Đặt lịch">
 	 							</form>
 	 						</div>
 	 						<div class="col-md-3"></div>

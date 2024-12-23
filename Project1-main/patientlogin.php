@@ -53,7 +53,7 @@ $show = isset($error['login']) ? "<h5 class='text-center alert alert-danger'>{$e
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-3"></div>
-                <div class="col-md-6 my-5 jumbotron">
+                <div class="col-md-6 my-3 jumbotron">
                     <h5 class="text-center my-3">Đăng nhập</h5>
 
                     <form method="post">

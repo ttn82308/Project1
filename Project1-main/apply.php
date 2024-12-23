@@ -95,7 +95,7 @@ $countries = [
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Apply Now</title>
+    <title>Đơn đăng ký</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
 </head>
 <body style="background-image: url('img/back.jpg'); background-size: cover; background-repeat: no-repeat;">
@@ -106,7 +106,7 @@ $countries = [
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6 jumbotron my-3">
-                <h5 class="text-center">Apply Now</h5>
+                <h5 class="text-center">Đơn đăng ký</h5>
                 <?php if (isset($error['general'])): ?>
                     <div class="alert alert-danger text-center">
                         <?php echo $error['general']; ?>

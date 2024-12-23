@@ -14,9 +14,9 @@ if (isset($_POST['login'])) {
 
 	// Kiểm tra dữ liệu nhập
 	if (empty($username)) {
-		$error['admin'] = "Enter username";
+		$error['admin'] = "Nhập tên tài khoản.";
 	} else if (empty($password)) {
-		$error['admin'] = "Enter password";
+		$error['admin'] = "Nhập mật khẩu.";
 	}
 
 	if (count($error) == 0) {
@@ -32,17 +32,17 @@ if (isset($_POST['login'])) {
 			
 			// Kiểm tra mật khẩu với password_verify
 			if (password_verify($password, $row['password'])) {
-				echo "<script>alert('You have logged in as an admin')</script>";
+				echo "<script>alert('Bạn đã đăng nhập với tư cách admin.')</script>";
 
 				$_SESSION['admin'] = $username;
 
 				header("Location: admin/index.php");
 				exit();
 			} else {
-				echo "<script>alert('Invalid Username or Password')</script>";
+				echo "<script>alert('Tên tài khoản hoặc mật khẩu không đúng.')</script>";
 			}
 		} else {
-			echo "<script>alert('Invalid Username or Password')</script>";
+			echo "<script>alert('Tên tài khoản hoặc mật khẩu không đúng.')</script>";
 		}
 
 		mysqli_stmt_close($stmt);
@@ -88,11 +88,11 @@ if (isset($_POST['login'])) {
 						<div class="form-group">
 							<label>Tên tài khoản</label>
 							<input type="text" name="uname" class="form-control"
-							autocomplete="off" placeholder="Enter Username">
+							autocomplete="off" placeholder="Nhập tài khoản">
 						</div>
 						<div class="form-group">
 							<label>Mật khẩu</label>
-							<input type="password" name="pass" class="form-control" placeholder="Enter Password">
+							<input type="password" name="pass" class="form-control" placeholder="Nhập mật khẩu">
 						</div>
 						<input type="submit" name="login" class="btn btn-success" value="Đăng nhập">
 					</form>
