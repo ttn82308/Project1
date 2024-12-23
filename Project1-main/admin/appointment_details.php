@@ -54,38 +54,25 @@ if (isset($_POST['update'])) {
 
                     echo "<table class='table table-bordered'>
                         <tr>
-                            <th>ID</th>
-                            <th>Firstname</th>
-                            <th>Surname</th>
-                            <th>Gender</th>
-                            <th>Phone</th>
-                            <th>Symptoms</th>
-                            <th>Status</th>
-                            <th>Doctor Assigned</th>
-                            <th>Action</th>
+                            <th>Họ</th>
+                            <th>Tên</th>
+                            <th>Giới tính</th>
+                            <th>Số điện thoại</th>
+                            <th>Triệu chứng gặp phải</th>
+                            <th>Trạng thái</th>
+                            <th>Bác sĩ phụ trách</th>
                         </tr>";
 
                     if (mysqli_num_rows($res) > 0) {
                         while ($row = mysqli_fetch_assoc($res)) {
                             echo "<tr>
-                                <td>" . $row['id'] . "</td>
-                                <td>" . $row['firstname'] . "</td>
                                 <td>" . $row['surname'] . "</td>
+                                <td>" . $row['firstname'] . "</td>
                                 <td>" . $row['gender'] . "</td>
                                 <td>" . $row['phone'] . "</td>
                                 <td>" . $row['symptoms'] . "</td>
                                 <td>" . $row['status'] . "</td>
                                 <td>" . (!empty($row['doctor_id']) ? $row['doctor_id'] : "Not Assigned") . "</td>
-                                <td>
-                                    <form method='post'>                                                          
-                                        <select name='status' class='form-control my-2' required>
-                                            <option value='Pendding' " . ($row['status'] == 'Pendding' ? 'selected' : '') . ">Pendding</option>
-                                            <option value='Approved' " . ($row['status'] == 'Approved' ? 'selected' : '') . ">Approved</option>
-                                            <option value='Cancelled' " . ($row['status'] == 'Cancelled' ? 'selected' : '') . ">Cancelled</option>
-                                        </select>
-                                        <button type='submit' name='update' class='btn btn-success'>Update</button>
-                                    </form>
-                                </td>
                             </tr>";
                         }
                     } else {

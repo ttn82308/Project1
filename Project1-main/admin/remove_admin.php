@@ -18,13 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $delete_stmt->bind_param("i", $id);
 
         if ($delete_stmt->execute()) {
-            echo "Admin removed successfully.";
+            echo "Xoá thành công.";
         } else {
-            echo "Error: Unable to delete admin.";
+            echo "Không thể xoá.";
         }
         $delete_stmt->close();
     } else {
-        echo "Admin not found or you cannot remove yourself.";
+        echo "Không thể tìm thấy hoặc không thể xoá bản thân.";
     }
 
     $stmt->close();

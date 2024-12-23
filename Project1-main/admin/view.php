@@ -44,15 +44,16 @@ session_start();
 								<th class="text-center" colspan="2">Details</th>
 							</tr>
 							<tr>
-								<td>Firstname</td>
-								<td><?php echo $row['firstname'];?></td>
-							</tr>
-							<tr>
-								<td>Surname</td>
+								<td>Họ</td>
 								<td><?php echo $row['surname'];?></td>
 							</tr>
 							<tr>
-								<td>Username</td>
+								<td>Tên</td>
+								<td><?php echo $row['firstname'];?></td>
+							</tr>
+
+							<tr>
+								<td>Tên tài khoản</td>
 								<td><?php echo $row['username'];?></td>
 							</tr>
 							<tr>
@@ -60,19 +61,19 @@ session_start();
 								<td><?php echo $row['email'];?></td>
 							</tr>
 							<tr>
-								<td>Phone</td>
+								<td>Số điện thoại</td>
 								<td><?php echo $row['phone'];?></td>
 							</tr>
 							<tr>
-								<td>Gender</td>
+								<td>Giới tính</td>
 								<td><?php echo $row['gender'];?></td>
 							</tr>
 							<tr>
-								<td>Country</td>
+								<td>Quốc tịch</td>
 								<td><?php echo $row['country'];?></td>
 							</tr>
 							<tr>
-								<td>Date Register</td>
+								<td>Ngày đăng kí</td>
 								<td><?php echo $row['date_reg'];?></td>
 							</tr>
 						</table>

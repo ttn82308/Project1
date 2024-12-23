@@ -25,7 +25,7 @@
 					?>
 				</div>
 				<div class="col-md-10">
-					<h5 class="text-center my-3">Total Report</h5>
+					<h5 class="text-center my-3">Danh sách khiếu nại</h5>
 					<?php 
 					$query = "SELECT *FROM report";
 					$res = mysqli_query($connect,$query);
@@ -34,23 +34,21 @@
 					$output .= "
 					<table class='table table-responsive table-bordered'>
 						<tr>
-						<td>ID</td>
-						<td>Title</td>
-						<td>Message</td>
-						<td>Username</td>
-						<td>Data Send</td>
+						<td>Tiêu đề</td>
+						<td>Nội dung</td>
+						<td>Tên tài khoản</td>
+						<td>Ngày gửi</td>
 						
 						</tr>
 						";
 					if(mysqli_num_rows($res) < 1 ){
-						$output .= "<tr><td colspan='3' class='text-center'>No Report Yet</td></tr>";
+						$output .= "<tr><td colspan='3' class='text-center'>Không có khiếu nại</td></tr>";
 								}
 					while ($row = mysqli_fetch_array($res)) {
 									
 
 									$output .="
 									<tr>
-									<td>".$row['id']."</td>
 									<td>".$row['title']."</td>
 									<td>".$row['message']."</td>
 									<td>".$row['username']."</td>
@@ -59,7 +57,7 @@
 									
 									<td>
 										<a href='view.php?id=".$row['id']."'>
-										<button class'btn btn-info'>View</button>
+										<button class'btn btn-info'>Thông tin</button>
 										</a>
 										</td>
 										";

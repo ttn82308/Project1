@@ -36,8 +36,8 @@
 					<table class='table table-responsive table-bordered'>
 								<tr>
 								<th>ID</th>
-								<th>Firstname</th>
-								<th>Surname</th>
+								<th>Họ</th>
+								<th>Tên</th>
 								<th>Username</th>
 								<th>Email</th>
 								<th>Phone</th>
@@ -57,8 +57,8 @@
 									$output .="
 									<tr>
 									<td>".$row['id']."</td>
+									<td>".$row['surname']."</td>									
 									<td>".$row['firstname']."</td>
-									<td>".$row['surname']."</td>
 									<td>".$row['username']."</td>
 									<td>".$row['email']."</td>
 									<td>".$row['phone']."</td>

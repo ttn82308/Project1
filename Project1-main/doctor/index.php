@@ -46,12 +46,12 @@ $doctor_count = mysqli_num_rows($doctor_query);
         </div>
         <!-- Main Content -->
         <div class="col-md-10">
-            <h4 class="my-2">Doctor Dashboard</h4>
+            <h4 class="my-2">Trang chủ</h4>
             <div class="row">
                 <!-- Doctor Profile-->
                 <div class="col-md-3 bg-info mx-2 my-2 dashboard-card">
 
-                    <h6>My Profile</h6>
+                    <h6>Hồ sơ</h6>
                     <a href="profile.php">
                         <i class="fa fa-user-circle fa-3x dashboard-icon"></i>
                     </a>
@@ -64,7 +64,7 @@ $doctor_count = mysqli_num_rows($doctor_query);
                     $patient_count = mysqli_num_rows($patient);
                      ?>
                     <h5 style="font-size: 30px;"><?php echo $patient_count; ?></h5>
-                    <h6>Patients</h6>
+                    <h6>Bệnh nhân</h6>
                     <a href="patient.php">
                         <i class="fa fa-procedures fa-3x dashboard-icon"></i>
                     </a>
@@ -77,7 +77,7 @@ $doctor_count = mysqli_num_rows($doctor_query);
                     $appointment_count = mysqli_num_rows($appointment);
                     ?>
                     <h5 style="font-size: 30px;"><?php echo $appointment_count; ?></h5>
-                    <h6>Appointment</h6>
+                    <h6>Lịch hẹn</h6>
                     <a href="appointment.php">
                         <i class="fa fa-calendar fa-3x dashboard-icon"></i>
                     </a>

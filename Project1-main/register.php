@@ -76,10 +76,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
     }
 }
 ?>
+<?php
+// Danh sách quốc gia
+$countries = [
+    'America' => 'Hoa Kỳ',
+    'Pakistan' => 'Pakistan',
+    'China' => 'Trung Quốc',
+    'Vietnam' => 'Việt Nam',
+    'Japan' => 'Nhật Bản',
+    'Thailand' => 'Thái Lan',
+    'Australia' => 'Úc',
+    'France' => 'Pháp',
+    'Germany' => 'Đức',
+    'India' => 'Ấn Độ',
+    'Canada' => 'Canada',
+    'South Korea' => 'Hàn Quốc',
+    'United Kingdom' => 'Vương Quốc Anh',
+    'Italy' => 'Ý',
+    'Spain' => 'Tây Ban Nha',
+    'Russia' => 'Nga',
+    'Brazil' => 'Brazil',
+    'Mexico' => 'Mexico',
+    'South Africa' => 'Nam Phi',
+    'Argentina' => 'Argentina'
+    // Thêm các quốc gia khác nếu cần
+];
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sign Up</title>
+    <title>Đăng kí</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
 </head>
 <body style="background-image: url('img/back.jpg'); background-size: cover; background-repeat: no-repeat;">
@@ -90,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6 bg-light p-4 rounded my-3">
-                <h5 class="text-center">Create Account</h5>
+                <h5 class="text-center">Tạo tài khoản</h5>
                 <?php if (isset($error['general'])): ?>
                     <div class="alert alert-danger text-center">
                         <?php echo $error['general']; ?>
@@ -99,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
 
                 <form method="POST" action="">
                     <div class="mb-3">
-                        <label for="fname">First Name:</label>
+                        <label for="fname">Tên:</label>
                         <input type="text" name="fname" class="form-control" value="<?php echo htmlspecialchars($firstname ?? ''); ?>">
                         <?php if (isset($error['fname'])): ?>
                             <div class="text-danger"><?php echo $error['fname']; ?></div>
@@ -107,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
                     </div>
 
                     <div class="mb-3">
-                        <label for="sname">Surname:</label>
+                        <label for="sname">Họ:</label>
                         <input type="text" name="sname" class="form-control" value="<?php echo htmlspecialchars($surname ?? ''); ?>">
                         <?php if (isset($error['sname'])): ?>
                             <div class="text-danger"><?php echo $error['sname']; ?></div>
@@ -115,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
                     </div>
 
                     <div class="mb-3">
-                        <label for="uname">Username:</label>
+                        <label for="uname">Tên tài khoản:</label>
                         <input type="text" name="uname" class="form-control" value="<?php echo htmlspecialchars($username ?? ''); ?>">
                         <?php if (isset($error['uname'])): ?>
                             <div class="text-danger"><?php echo $error['uname']; ?></div>
@@ -131,12 +157,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
                     </div>
 
                     <div class="mb-3">
-                        <label for="gender">Gender:</label>
+                        <label for="gender">Giới tính:</label>
                         <select name="gender" class="form-control">
                             <option value="">Select Gender</option>
-                            <option value="Male" <?php echo (isset($gender) && $gender == 'Male') ? 'selected' : ''; ?>>Male</option>
-                            <option value="Female" <?php echo (isset($gender) && $gender == 'Female') ? 'selected' : ''; ?>>Female</option>
-                            <option value="Other" <?php echo (isset($gender) && $gender == 'Other') ? 'selected' : ''; ?>>Other</option>
+                            <option value="Male" <?php echo (isset($gender) && $gender == 'Male') ? 'selected' : ''; ?>>Nam</option>
+                            <option value="Female" <?php echo (isset($gender) && $gender == 'Female') ? 'selected' : ''; ?>>Nữ</option>
+                            <option value="Other" <?php echo (isset($gender) && $gender == 'Other') ? 'selected' : ''; ?>>Khác</option>
                         </select>
                         <?php if (isset($error['gender'])): ?>
                             <div class="text-danger"><?php echo $error['gender']; ?></div>
@@ -144,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
                     </div>
 
                     <div class="mb-3">
-                        <label for="phone">Phone:</label>
+                        <label for="phone">Số điện thoại:</label>
                         <input type="text" name="phone" class="form-control" value="<?php echo htmlspecialchars($phone ?? ''); ?>">
                         <?php if (isset($error['phone'])): ?>
                             <div class="text-danger"><?php echo $error['phone']; ?></div>
@@ -152,23 +178,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
                     </div>
 
                     <div class="mb-3">
-                        <label for="country">Country:</label>
-                        <select name="country" class="form-control">
-                            <option value="">Select Country</option>
-                            <option value="America" <?php echo (isset($country) && $country == 'America') ? 'selected' : ''; ?>>America</option>
-                            <option value="Pakistan" <?php echo (isset($country) && $country == 'Pakistan') ? 'selected' : ''; ?>>Pakistan</option>
-                            <option value="China" <?php echo (isset($country) && $country == 'China') ? 'selected' : ''; ?>>China</option>
-                            <option value="Viet nam" <?php echo (isset($country) && $country == 'Viet nam') ? 'selected' : ''; ?>>Viet nam</option>
-                            <option value="Japan" <?php echo (isset($country) && $country == 'Japan') ? 'selected' : ''; ?>>Japan</option>
-                            <option value="Thailand" <?php echo (isset($country) && $country == 'Thailand') ? 'selected' : ''; ?>>Thailand</option>
-                        </select>
+                        <label for="country">Quốc tịch:</label>
+                            <select name="country" class="form-control">
+                                <option value="">Chọn quốc gia</option>
+                                <?php foreach ($countries as $key => $value): ?>
+                                    <option value="<?php echo $key; ?>" <?php echo (isset($country) && $country == $key) ? 'selected' : ''; ?>>
+                                        <?php echo $value; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
                         <?php if (isset($error['country'])): ?>
                             <div class="text-danger"><?php echo $error['country']; ?></div>
                         <?php endif; ?>
                     </div>
 
                     <div class="mb-3">
-                        <label for="pass">Password:</label>
+                        <label for="pass">Mật khẩu:</label>
                         <input type="password" name="pass" class="form-control">
                         <?php if (isset($error['pass'])): ?>
                             <div class="text-danger"><?php echo $error['pass']; ?></div>
@@ -176,14 +201,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
                     </div>
 
                     <div class="mb-3">
-                        <label for="con_pass">Confirm Password:</label>
+                        <label for="con_pass">Nhập lại mật khẩu:</label>
                         <input type="password" name="con_pass" class="form-control">
                         <?php if (isset($error['con_pass'])): ?>
                             <div class="text-danger"><?php echo $error['con_pass']; ?></div>
                         <?php endif; ?>
                     </div>
 
-                    <button type="submit" name="apply" class="btn btn-primary btn-block">Sign Up</button>
+                    <button type="submit" name="apply" class="btn btn-primary btn-block">Đăng kí</button>
                 </form>
             </div>
         </div>

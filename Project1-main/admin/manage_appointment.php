@@ -1,3 +1,19 @@
+<?php
+session_start();
+include("../include/header.php");
+include("../include/connection.php");
+
+// Kiểm tra nếu admin chưa đăng nhập
+if (!isset($_SESSION['admin'])) {
+    header("Location: admin.php");
+    exit();
+}
+?>
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    include('process_limit.php');
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,14 +32,14 @@
                      ?>
                 </div>
                 <div class="col-md-10">
-                    <h5 class="text-center my-3">Manage Appointments by Month</h5>
+                    <h5 class="text-center my-3">Quản lý lịch hẹn</h5>
 
                     <!-- Hàng chứa Select Month và Set Limit for Entire Month -->
                     <div class="row align-items-center mb-3">
                         <!-- Form lọc theo tháng -->
                         <div class="col-md-6">
                             <form method="get" class="form-inline">
-                                <label for="month" class="mr-2">Select Month:</label>
+                                <label for="month" class="mr-2">Chọn tháng:</label>
                                 <input 
                                     type="month" 
                                     name="month" 
@@ -32,23 +48,23 @@
                                     min="<?php echo date('Y-m', strtotime('-2 months')); ?>" 
                                     max="<?php echo date('Y-m', strtotime('+12 months')); ?>" 
                                     required>
-                                <button type="submit" class="btn btn-primary">Filter</button>
+                                <button type="submit" class="btn btn-success">Xác nhận</button>
                             </form>
                         </div>
 
                         <!-- Form đặt giới hạn cho cả tháng -->
                         <div class="col-md-6">
                             <form method="post" class="form-inline">
-                                <label for="month-limit" class="mr-2">Set Limit for Entire Month:</label>
+                                <label for="month-limit" class="mr-2">Đặt giới hạn lịch hẹn cho tháng:</label>
                                 <input 
                                     type="number" 
                                     name="limit" 
                                     id="month-limit" 
                                     class="form-control mr-2" 
-                                    placeholder="Enter Limit" 
+                                    placeholder="Nhập giới hạn" 
                                     min="1" 
                                     required>
-                                <button type="submit" name="update_month_limit" class="btn btn-warning">Set Limit</button>
+                                <button type="submit" name="update_month_limit" class="btn btn-success">Xác nhận</button>
                             </form>
                         </div>
                     </div>
@@ -89,7 +105,7 @@
                             $current_date = date("Y-m-d", strtotime($current_date . "+1 day"));
                         }
 
-                        echo "<script>alert('Limit updated successfully for the entire month!'); window.location.href = 'manage_appointment.php?month=$selected_month';</script>";
+                        echo "<script>alert('Đã cập nhật giới hạn cho tháng!'); window.location.href = 'manage_appointment.php?month=$selected_month';</script>";
                     }
 
                     // Hiển thị bảng lịch hẹn từ ngày đầu đến ngày cuối
@@ -120,11 +136,11 @@
 
                     echo "<table class='table table-bordered'>
                         <tr>
-                            <th>Appointment Date</th>
-                            <th>Total Appointments</th>
-                            <th>Limit</th>
-                            <th>Set Limit</th>
-                            <th>Details</th>
+                            <th>Ngày hẹn khám</th>
+                            <th>Tổng lịch hẹn</th>
+                            <th>Giới hạn lịch</th>
+                            <th></th>
+                            <th>Chi tiết</th>
                         </tr>";
 
                     if (mysqli_num_rows($res) > 0) {
@@ -140,19 +156,19 @@
                                         <input type='hidden' name='date' value='" . $row['appointment_date'] . "'>
                                         <!-- Chỉ cho phép nhập số dương -->
                                         <input type='number' name='limit' class='form-control' placeholder='Set Limit' min='1' required>
-                                        <button type='submit' name='update_limit' class='btn btn-success ml-2'>Update</button>
+                                        <button type='submit' name='update_limit' class='btn btn-warning ml-2'>Cập nhật</button>
                                     </form>
                                 </td>
                                 <td>
                                     <a href='appointment_details.php?date=" . $row['appointment_date'] . "'>
-                                        <button class='btn btn-info'>View Details</button>
+                                        <button class='btn btn-info'>Chi tiết</button>
                                     </a>
                                 </td>
                             </tr>";
                         }
                     } else {
                         echo "<tr>
-                            <td colspan='5' class='text-center'>No Appointments Found</td>
+                            <td colspan='5' class='text-center'>Không có lịch hẹn nào</td>
                         </tr>";
                     }
 

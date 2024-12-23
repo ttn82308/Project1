@@ -43,7 +43,7 @@ $show = isset($error['login']) ? "<h5 class='text-center alert alert-danger'>{$e
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Patient Login Page</title>
+    <title>Đăng nhập</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body style="background-image: url(img/back.jpg); background-repeat: no-repeat; background-size: cover;">
@@ -54,19 +54,19 @@ $show = isset($error['login']) ? "<h5 class='text-center alert alert-danger'>{$e
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6 my-5 jumbotron">
-                    <h5 class="text-center my-3">Patient Login</h5>
+                    <h5 class="text-center my-3">Đăng nhập</h5>
 
                     <form method="post">
                         <div class="form-group">
-                            <label>Username</label>
-                            <input type="text" name="uname" class="form-control" autocomplete="off" placeholder="Enter Username">
+                            <label>Tài khoản</label>
+                            <input type="text" name="uname" class="form-control" autocomplete="off" placeholder="Nhập tài khoản">
                         </div>
                         <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" name="pass" class="form-control" autocomplete="off" placeholder="Enter Password">
+                            <label>Mật khẩu</label>
+                            <input type="password" name="pass" class="form-control" autocomplete="off" placeholder="Nhập mật khẩu">
                         </div>
-                        <input type="submit" name="login" class="btn btn-info my-3" value="Login">
-                        <p>Don't have an account Yet?<a href="register.php">Click here.</a></p>
+                        <input type="submit" name="login" class="btn btn-info my-3" value="Đăng nhập">
+                        <p>Chưa có tài khoản ? <a href="register.php"> Đăng kí.</a></p>
                     </form>
                 </div>
                 <div class="col-md-3"></div>

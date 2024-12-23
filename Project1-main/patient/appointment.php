@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Book Appointment</title>
+	<title>Đặt lịch khám</title>
 </head>
 <body>
 	<?php 
@@ -20,7 +20,7 @@
 	 				?>
 	 			</div>
 	 			<div class="col-md-10">
-	 				<h5 class="text-center my-2">Book Appointment</h5>
+	 				<h5 class="text-center my-2">Đặt lịch khám</h5>
 
 	 				<?php 
 	 				$pat = $_SESSION['patient'];
@@ -37,11 +37,11 @@
 
 	 					// Kiểm tra dữ liệu đầu vào
 	 					if (empty($sym)) {
-	 						echo "<script>alert('Please enter your symptoms.')</script>";
+	 						echo "<script>alert('Hãy nhập tình trạng hiện tại của bạn.')</script>";
 	 					} elseif (empty($date)) {
-	 						echo "<script>alert('Please select an appointment date.')</script>";
+	 						echo "<script>alert('Hãy chọn ngày hẹn khám.')</script>";
 	 					} elseif ($date < date('Y-m-d')) {
-	 						echo "<script>alert('Appointment date cannot be in the past.')</script>";
+	 						echo "<script>alert('Ngày khám không hợp lệ.')</script>";
 	 					} else {
 	 						// Kiểm tra số lượng lịch hẹn tối đa trong ngày
 	 						$check_limit_query = "SELECT limit_count FROM appointment_limits WHERE appointment_date = '$date'";
@@ -56,7 +56,7 @@
 	 						$row_check = mysqli_fetch_assoc($res_check);
 
 	 						if ($row_check['total'] >= $max_limit) {
-	 							echo "<script>alert('Appointment slots for this date are full. Please select another date.')</script>";
+	 							echo "<script>alert('Ngày bạn chọn đã kín lịch. Vui lòng chọn ngày khác')</script>";
 	 						} else {
 	 							// Thêm lịch hẹn mới
 	 							$query = "INSERT INTO appointment(firstname, surname, gender, phone, appointment_date, symptoms, status, date_booked) 
@@ -65,9 +65,9 @@
 	 							$res = mysqli_query($connect, $query);
 
 	 							if ($res) {
-	 								echo "<script>alert('You have successfully booked an appointment.')</script>";
+	 								echo "<script>alert('Bạn đã đặt lịch khám thành công.')</script>";
 	 							} else {
-	 								echo "<script>alert('Failed to book appointment. Please try again.')</script>";
+	 								echo "<script>alert('Đặt lịch thất bại. Vui lòng thử lại')</script>";
 	 							}
 	 						}
 	 					}

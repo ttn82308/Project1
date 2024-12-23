@@ -27,7 +27,7 @@ $res = $stmt->get_result();
                 <?php include("sidenav.php"); ?>
             </div>
             <div class="col-md-10">
-                <h5 class="text-center">Total Doctors</h5>
+                <h5 class="text-center">Danh sách bác sĩ</h5>
                 <form method="GET">
                     <input type="text" name="search" placeholder="Search by name..." class="form-control mb-3"
                            value="<?php echo htmlspecialchars($search, ENT_QUOTES, 'UTF-8'); ?>">
@@ -38,24 +38,22 @@ $res = $stmt->get_result();
                     <table class='table table-bordered table-striped'>
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Firstname</th>
-                            <th>Surname</th>
-                            <th>Username</th>
-                            <th>Gender</th>
-                            <th>Phone</th>
-                            <th>Country</th>
-                            <th>Salary</th>
-                            <th>Date Registered</th>
-                            <th>Action</th>
+                            <th>Họ</th>
+                            <th>Tên</th>
+                            <th>Tên tài khoản</th>
+                            <th>Giới tính</th>
+                            <th>Số điện thoại</th>
+                            <th>Quốc tịch</th>
+                            <th>Lương</th>
+                            <th>Ngày đăng kí</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php while ($row = $res->fetch_assoc()): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($row['id'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo htmlspecialchars($row['surname'], ENT_QUOTES, 'UTF-8'); ?></td>                                
                                 <td><?php echo htmlspecialchars($row['firstname'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?php echo htmlspecialchars($row['surname'], ENT_QUOTES, 'UTF-8'); ?></td>
                                 <td><?php echo htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8'); ?></td>
                                 <td><?php echo htmlspecialchars($row['gender'], ENT_QUOTES, 'UTF-8'); ?></td>
                                 <td><?php echo htmlspecialchars($row['phone'], ENT_QUOTES, 'UTF-8'); ?></td>
@@ -64,11 +62,11 @@ $res = $stmt->get_result();
                                 <td><?php echo htmlspecialchars($row['data_reg'], ENT_QUOTES, 'UTF-8'); ?></td>
                                 <td>
                                     <a href='edit.php?id=<?php echo htmlspecialchars($row['id'], ENT_QUOTES, 'UTF-8'); ?>' 
-                                       class='btn btn-info'>Edit</a>
+                                       class='btn btn-info'>Sửa lương</a>
                                     <a href='delete.php?id=<?php echo htmlspecialchars($row['id'], ENT_QUOTES, 'UTF-8'); ?>' 
                                          class='btn btn-danger' 
-                                            onclick="return confirm('Are you sure you want to delete this doctor?');">
-                                                 Delete
+                                            onclick="return confirm('Bạn có muốn xoá không?');">
+                                                Xoá
                                     </a>
                                 </td>
                             </tr>
@@ -101,7 +99,7 @@ $res = $stmt->get_result();
 
                 <?php else: ?>
                     <div class="alert alert-warning text-center">
-                        No Approved Doctors Found. Please check back later or add new doctors.
+                        Hiện không có bác sĩ.
                     </div>
                 <?php endif; ?>
             </div>

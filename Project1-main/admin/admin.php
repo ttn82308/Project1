@@ -5,7 +5,7 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin</title>
+    <title>Danh sách Admin</title>
 </head>
 <body>
     <?php 
@@ -36,8 +36,7 @@ session_start();
                                     $output = "
                                     <table class='table table-bordered'>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Username</th>
+                                            <th>Tên tài khoản</th>
                                             <th style='width: 10%;'>Action</th>
                                         </tr>
                                     ";
@@ -51,10 +50,9 @@ session_start();
 
                                             $output .= "
                                             <tr>
-                                                <td>$id</td>
                                                 <td>$username</td>    
                                                 <td>
-                                                    <button id='$id' class='btn btn-danger remove'>Remove</button>
+                                                    <button id='$id' class='btn btn-danger remove'>Xoá</button>
                                                 </td>
                                             ";
                                         }
@@ -80,8 +78,8 @@ session_start();
 
                                     $error = [];
 
-                                    if (empty($uname)) $error[] = "Enter Admin Username"; 
-                                    if (empty($pass)) $error[] = "Enter Admin Password";
+                                    if (empty($uname)) $error[] = "Nhập tên tài khoản"; 
+                                    if (empty($pass)) $error[] = "Nhập mật khẩu";
                                     if (empty($image)) $error[] = "Add Admin Picture";
 
                                     $folder = 'img/';
@@ -121,20 +119,20 @@ session_start();
                                 <h5 class="text-center">Add Admin</h5>
                                 <form method="post" enctype="multipart/form-data">
                                     <div class="form-group">
-                                        <label>Username</label>
+                                        <label>Tên tài khoản</label>
                                         <input type="text" name="uname" class="form-control" autocomplete="off">
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Password</label>
+                                        <label>Mật khẩu</label>
                                         <input type="password" name="pass" class="form-control">     
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Add Admin Picture</label>
+                                        <label>Thêm ảnh</label>
                                         <input type="file" name="img" class="form-control">
                                     </div><br>
-                                    <input type="submit" name="add" value="Add New Admin" class="btn btn-success">
+                                    <input type="submit" name="add" value="Xác nhận" class="btn btn-success">
                                 </form>
                             </div>
                         </div>

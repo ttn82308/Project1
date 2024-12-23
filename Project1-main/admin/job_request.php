@@ -19,7 +19,7 @@
 	 				<?php include("sidenav.php"); ?>
 	 			</div>
 	 			<div class="col-md-10">
-	 				<h5 class="text-center my-3">Job Requests</h5>
+	 				<h5 class="text-center my-3">Danh sách đăng kí</h5>
 	 				<div id="message"></div>
 	 				<div id="show"></div> 
 	 				<?php 
@@ -44,7 +44,7 @@
 					},
 					error: function() {
 						console.log(data);
-						$("#message").html('<div class="alert alert-danger">Failed to load job requests. Please try again.</div>');
+						$("#message").html('<div class="alert alert-danger">Có lỗi xảy ra. Vui lòng thử lại</div>');
 					}
 				});
 			}
@@ -58,11 +58,11 @@
 					method: "POST",
 					data: { id: id, csrf_token: '<?php echo $_SESSION["csrf_token"]; ?>' },
 					success: function(response){
-						$("#message").html('<div class="alert alert-success">Request approved successfully!</div>');
+						$("#message").html('<div class="alert alert-success">Xác nhận đơn thành công!</div>');
 						show();
 					},
 					error: function() {
-						$("#message").html('<div class="alert alert-danger">Failed to approve request.</div>');
+						$("#message").html('<div class="alert alert-danger">Có lỗi xảy ra.</div>');
 					}
 				});
 			});
@@ -76,11 +76,11 @@
 					method: "POST",
 					data: { id: id, csrf_token: '<?php echo $_SESSION["csrf_token"]; ?>' },
 					success: function(response){
-						$("#message").html('<div class="alert alert-success">Request rejected successfully!</div>');
+						$("#message").html('<div class="alert alert-success">Từ chối đơn thành công!</div>');
 						show();
 					},
 					error: function() {
-						$("#message").html('<div class="alert alert-danger">Failed to reject request.</div>');
+						$("#message").html('<div class="alert alert-danger">Có lỗi xảy ra.</div>');
 					}
 				});
 			});

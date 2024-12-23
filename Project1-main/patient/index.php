@@ -27,9 +27,9 @@ if (isset($_POST['send'])) {
         mysqli_stmt_bind_param($stmt, "sss", $title, $message, $user);
 
         if (mysqli_stmt_execute($stmt)) {
-            echo "<script>alert('You have successfully sent your report.');</script>";
+            echo "<script>alert('Bạn đã gửi khiếu nại thành công.');</script>";
         } else {
-            echo "<script>alert('Failed to send report. Please try again.');</script>";
+            echo "<script>alert('Gửi khiếu nại thất bại. Vui lòng thử lại');</script>";
         }
         mysqli_stmt_close($stmt);
     }
@@ -39,30 +39,28 @@ if (isset($_POST['send'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Patient Dashboard</title>
+    <title>Trang chủ</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body style="background-color: #f8f9fa;">
-
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
-        <div class="col-md-2">
+        <div class="col-md-2" style="margin-left:-30px">
             <?php include("sidenav.php"); ?>
         </div>
-
         <!-- Main Content -->
         <div class="col-md-10">
-            <h5 class="my-3">Patient Dashboard</h5>
+            <h5 class="my-3">Trang chủ</h5>
             <div class="row">
                 <!-- Patient Profile -->
                 <div class="col-md-3 my-2 bg-info text-white text-center py-4 mx-2">
-                    <h5>My Profile</h5>
+                    <h5>Thông tin cá nhân</h5>
                     <a href="profile.php"><i class="fa fa-user-circle fa-3x"></i></a>
                 </div>
                 <!-- Book Appointment -->
                 <div class="col-md-3 my-2 bg-warning text-white text-center py-4 mx-2">
-                    <h5>Book Appointment</h5>
+                    <h5>Đặt lịch khám</h5>
                     <a href="appointment.php"><i class="fa fa-calendar fa-3x"></i></a>
                 </div>
                 <!-- Invoice -->
@@ -77,7 +75,7 @@ if (isset($_POST['send'])) {
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header bg-info text-white text-center">
-                            <h5>Send A Report</h5>
+                            <h5>Khiếu nại</h5>
                         </div>
                         <div class="card-body">
                             <?php if (!empty($error)): ?>
@@ -92,14 +90,14 @@ if (isset($_POST['send'])) {
 
                             <form method="post">
                                 <div class="form-group">
-                                    <label>Title</label>
-                                    <input type="text" name="title" class="form-control" placeholder="Enter title of the report">
+                                    <label>Tiêu đề</label>
+                                    <input type="text" name="title" class="form-control" placeholder="Nhập tiêu đề">
                                 </div>
                                 <div class="form-group">
-                                    <label>Message</label>
-                                    <textarea name="message" class="form-control" placeholder="Enter message"></textarea>
+                                    <label>Nội dung</label>
+                                    <textarea name="message" class="form-control" placeholder="Nhập nội dung"></textarea>
                                 </div>
-                                <button type="submit" name="send" class="btn btn-success btn-block">Send Report</button>
+                                <button type="submit" name="send" class="btn btn-success btn-block">Gửi khiếu nại</button>
                             </form>
                         </div>
                     </div>

@@ -17,7 +17,7 @@ include("../include/connection.php");
                 <?php include("sidenav.php"); ?>
             </div>
             <div class="col-md-10">
-                <h5 class="text-center">Edit Doctor</h5>
+                <h5 class="text-center">Chỉnh sửa</h5>
                 <?php 
                 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     $id = intval($_GET['id']);
@@ -30,51 +30,50 @@ include("../include/connection.php");
                     if ($result->num_rows > 0) {
                         $row = $result->fetch_assoc();
                     } else {
-                        echo "<p class='text-danger'>Doctor not found.</p>";
+                        echo "<p class='text-danger'>Không tìm thấy bác sĩ.</p>";
                         exit;
                     }
                 } else {
-                    echo "<p class='text-danger'>Invalid doctor ID.</p>";
+                    echo "<p class='text-danger'>Bác sĩ không tồn tại.</p>";
                     exit;
                 }
                 ?>
 
                 <div class="row">
                     <div class="col-md-8">
-                        <h5 class="text-center">Doctor Details</h5>
-                        <h5 class="col-md-3">ID: <?php echo htmlspecialchars($row['id']); ?></h5>
-                        <h5 class="col-md-3">Firstname: <?php echo htmlspecialchars($row['firstname']); ?></h5>
-                        <h5 class="col-md-3">Surname: <?php echo htmlspecialchars($row['surname']); ?></h5>
-                        <h5 class="col-md-3">Username: <?php echo htmlspecialchars($row['username']); ?></h5>
-                        <h5 class="col-md-3">Phone: <?php echo htmlspecialchars($row['phone']); ?></h5>
-                        <h5 class="col-md-3">Country: <?php echo htmlspecialchars($row['country']); ?></h5>
-                        <h5 class="col-md-3">Salary: $<?php echo htmlspecialchars($row['salary']); ?></h5>
+                        <h5 class="text-center">Thông tin</h5>
+                        <h5 class="col-md-3">Họ: <?php echo htmlspecialchars($row['surname']); ?></h5>
+                        <h5 class="col-md-3">Tên: <?php echo htmlspecialchars($row['firstname']); ?></h5>
+                        <h5 class="col-md-3">Tên tài khoản: <?php echo htmlspecialchars($row['username']); ?></h5>
+                        <h5 class="col-md-3">Số điện thoại: <?php echo htmlspecialchars($row['phone']); ?></h5>
+                        <h5 class="col-md-3">Quốc tịch: <?php echo htmlspecialchars($row['country']); ?></h5>
+                        <h5 class="col-md-3">Lương hiện tại: $<?php echo htmlspecialchars($row['salary']); ?></h5>
                     </div>
                     <div class="col-md-4">
-                        <h5 class="text-center">Update Salary</h5>
+                        <h5 class="text-center">Cập nhật lương</h5>
                         <?php 
                         if (isset($_POST['update'])) {
                             $salary = trim($_POST['salary']);
 
                             if (!is_numeric($salary) || $salary <= 0) {
-                                echo "<p class='text-danger'>Invalid salary amount. Please enter a positive number.</p>";
+                                echo "<p class='text-danger'>Số đã nhập không hợp lệ.</p>";
                             } else {
                                 $stmt = $connect->prepare("UPDATE doctor SET salary = ? WHERE id = ?");
                                 $stmt->bind_param("di", $salary, $id);
 
                                 if ($stmt->execute()) {
-                                    echo "<p class='text-success'>Salary updated successfully!</p>";
+                                    echo "<p class='text-success'>Cập nhật thành công!</p>";
                                 } else {
-                                    echo "<p class='text-danger'>Failed to update salary.</p>";
+                                    echo "<p class='text-danger'>Có lỗi xảy ra.</p>";
                                 }
                             }
                         }
                         ?>
                         <form method="post">
-                            <label for="salary">Enter Doctor Salary</label>
-                            <input type="number" id="salary" name="salary" class="form-control" placeholder="Enter Doctor Salary" 
+                            <label for="salary">Thay đổi lương</label>
+                            <input type="number" id="salary" name="salary" class="form-control" placeholder="Nhập số lương" 
                                 value="<?php echo htmlspecialchars($row['salary']); ?>" required>
-                            <input type="submit" name="update" class="btn btn-info my-3" value="Update Salary">
+                            <input type="submit" name="update" class="btn btn-info my-3" value="Xác nhận">
                         </form>
                     </div>
                 </div>

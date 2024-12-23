@@ -86,15 +86,15 @@ if (isset($_POST['login'])) {
 						</div>	
 
 						<div class="form-group">
-							<label>Username</label>
+							<label>Tên tài khoản</label>
 							<input type="text" name="uname" class="form-control"
 							autocomplete="off" placeholder="Enter Username">
 						</div>
 						<div class="form-group">
-							<label>Password</label>
+							<label>Mật khẩu</label>
 							<input type="password" name="pass" class="form-control" placeholder="Enter Password">
 						</div>
-						<input type="submit" name="login" class="btn btn-success" value="Login">
+						<input type="submit" name="login" class="btn btn-success" value="Đăng nhập">
 					</form>
 					</div class="col-md-3"></div>
 				</div>

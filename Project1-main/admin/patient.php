@@ -24,7 +24,7 @@
                     ?>
                 </div>
                 <div class="col-md-10">
-                    <h5 class="text-center my-3">Total Patient</h5>
+                    <h5 class="text-center my-3">Danh sách bệnh nhân</h5>
 
                     <?php
                     $query = "SELECT * FROM patient";
@@ -37,16 +37,15 @@
                         <table class='table table-responsive table-bordered'>
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Firstname</th>
-                                    <th>Surname</th>
-                                    <th>Username</th>
+                                    <th>Họ</th>
+                                    <th>Tên</th>
+                                    <th>Tên tài khoản</th>
                                     <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Gender</th>
-                                    <th>Country</th>
-                                    <th>Date Reg</th>
-                                    <th style='width: 10%;'>Action</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Giới tính</th>
+                                    <th>Quốc tịch</th>
+                                    <th>Ngày đăng kí</th>
+                                    <th style='width: 10%;'></th>
                                 </tr>
                             </thead>
                             <tbody>";
@@ -57,9 +56,8 @@
                             while ($row = mysqli_fetch_array($res)) {
                                 $output .= "
                                 <tr>
-                                    <td>{$row['id']}</td>
+                                    <td>{$row['surname']}</td>                                
                                     <td>{$row['firstname']}</td>
-                                    <td>{$row['surname']}</td>
                                     <td>{$row['username']}</td>
                                     <td>{$row['email']}</td>
                                     <td>{$row['phone']}</td>
@@ -68,7 +66,7 @@
                                     <td>{$row['date_reg']}</td>
                                     <td>
                                         <a href='view.php?id={$row['id']}'>
-                                            <button class='btn btn-info'>View</button>
+                                            <button class='btn btn-info'>Chi tiết</button>
                                         </a>
                                     </td>
                                 </tr>";

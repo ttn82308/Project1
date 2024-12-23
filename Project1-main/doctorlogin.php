@@ -12,9 +12,9 @@ if (isset($_POST['login'])) {
 
 
     if (empty($uname)) {
-        $error['login'] = "Enter username.";
+        $error['login'] = "Nhập tài khoản.";
     } else if (empty($password)) {
-        $error['login'] = "Enter password.";
+        $error['login'] = "Nhập mật khẩu.";
     } else {
         $query = "SELECT * FROM doctor WHERE username = ?";
         $stmt = $connect->prepare($query);
@@ -26,12 +26,12 @@ if (isset($_POST['login'])) {
             $row = $result->fetch_assoc();
 
             if ($row['status'] == "Pendding") {
-                $error['login'] = "Please wait for the administrator to confirm.";
+                $error['login'] = "Hãy đợi quản trị viên xác nhận đơn đăng kí.";
             } elseif ($row['status'] == "Rejected") {
-                $error['login'] = "The account has been denied. Please try again later.";
+                $error['login'] = "Đơn dăng kí đã bị từ chối.";
             } elseif (password_verify($password, $row['password'])) {
                 $_SESSION['doctor'] = $uname;
-                echo "<script>alert('Login successful!');</script>";
+                echo "<script>alert('Đăng nhập thành công!');</script>";
                 header("Location: doctor/index.php");
                 exit();
             } else {
@@ -65,16 +65,16 @@ $show = isset($error['login']) ? "<h5 class='text-center alert alert-danger'>{$e
                     </div>
                     <form method="post">
                         <div class="form-group">
-                            <label>Username</label>
-                            <input type="text" name="uname" class="form-control" autocomplete="off" placeholder="Enter Username">
+                            <label>Tài khoản</label>
+                            <input type="text" name="uname" class="form-control" autocomplete="off" placeholder="Nhập tài khoản">
                         </div>
 
                         <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" name="pass" class="form-control" autocomplete="off" placeholder="Enter Password">
+                            <label>Mật khẩu</label>
+                            <input type="password" name="pass" class="form-control" autocomplete="off" placeholder="Nhập mật khẩu">
                         </div>
-                        <input type="submit" name="login" class="btn btn-success" value="Login">
-                        <p>Don't have an account yet? <a href="apply.php">Apply</a></p>
+                        <input type="submit" name="login" class="btn btn-success" value="Đăng nhập">
+                        <p>Chưa có tài khoản ? <a href="apply.php"> Tạo đơn dăng kí</a></p>
                     </form>
                 </div>
                 <div class="col-md-3"></div>

@@ -7,7 +7,7 @@ session_start();
 <html>
 <head>
 
-	<title>Total Appointment</title>
+	<title>Danh sách lịch hẹn</title>
 </head>
 <body>
 
@@ -24,7 +24,7 @@ session_start();
 	 				 ?>
 	 			</div>
 	 			<div class="col-md-10">
-	 				<h5 class="text-center my-2">Total Appointment</h5>
+	 				<h5 class="text-center my-2">Danh sách lịch hẹn</h5>
 	 				<?php 
 
 	 				$query = "SELECT * FROM appointment";
@@ -36,14 +36,14 @@ session_start();
 	 				<table class ='table table-bodered'>
 	 				<tr>
 	 				<td>ID</td>
-	 				<td>Firstname</td>
-	 				<td>Surname</td>	 				
-	 				<td>Gender</td>
-	 				<td>Phone</td>
-	 				<td>Appointment Date</td>
-	 				<td>Symptoms</td>
-	 				<td>Date Booked</td>	 				
-	 				<td>Action</td>
+	 				<td>Tên</td>
+	 				<td>Họ</td>	 				
+	 				<td>Giới tính</td>
+	 				<td>Số điện thoại</td>
+	 				<td>Ngày hẹn khám</td>
+	 				<td>Triệu chứng gặp</td>
+	 				<td>Ngày đặt lịch</td>	 				
+	 				<td>Chi tiết</td>
 	 				<td>Bác sĩ phụ trách</td>
 	 				<td>Trạng Thái</td>
 	 				</tr>
@@ -52,7 +52,7 @@ session_start();
 	 				if (mysqli_num_rows($res) < 1) {
 	 					$output .="
 	 					<tr>
-	 					<td class='text-center' colspan ='10'>No Appointment Yet.</td>
+	 					<td class='text-center' colspan ='10'>Không có lịch hẹn.</td>
 	 					</tr>
 	 					";
 	 				}
@@ -72,17 +72,17 @@ session_start();
 						        <td>".$row['date_booked']."</td>
 						        <td>
 						            ".($status === 'Approved' 
-						                ? "<button class='btn btn-secondary' disabled>Check</button>"
+						                ? "<button class='btn btn-secondary' disabled>Chi tiết</button>"
 						                : "<a href='discharge.php?id=".$row['id']."'>
-						                    <button class='btn btn-info'>Check</button>
+						                    <button class='btn btn-info'>Chi tiết</button>
 						                  </a>")."
 						        </td>
 						        <td>$doctorAssigned</td>
 						        <td>
 						            ".($status === 'Approved'
-						                ? "<button class='btn btn-secondary' disabled>Approved</button>"
+						                ? "<button class='btn btn-secondary' disabled>Xác nhận</button>"
 						                : "<a href='approve.php?id=".$row['id']."'>
-						                    <button class='btn btn-info'>Approve</button>
+						                    <button class='btn btn-info'>Xác nhận</button>
 						                  </a>")."
 						        </td>
 						    </tr>

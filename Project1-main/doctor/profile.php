@@ -40,19 +40,19 @@
                                         $file_type = $_FILES['img']['type'];
 
                                         if (!in_array($file_type, ['image/jpeg', 'image/png', 'image/jpg'])) {
-                                            echo "Only JPG, PNG, and JPEG files are allowed.";
+                                            echo "Chỉ tải file có định dạng JPG, PNG, và JPEG.";
                                         } else {
                                             $upload_path = "img/$img";
                                             if (move_uploaded_file($tmp_name, $upload_path)) {
                                                 $query = "UPDATE doctor SET profile = '$img' WHERE username = '$doc'";
                                                 $res = mysqli_query($connect, $query);
                                                 if ($res) {
-                                                    echo "Profile image updated successfully!";
+                                                    echo "Cập nhật hồ sơ thành công!";
                                                 } else {
-                                                    echo "Error updating profile image.";
+                                                    echo "Lỗi tải ảnh cá nhân.";
                                                 }
                                             } else {
-                                                echo "Error uploading file.";
+                                                echo "Lỗi tải file.";
                                             }
                                         }
                                     }
@@ -61,22 +61,22 @@
                                 <form method="post" enctype="multipart/form-data">
                                     <?php echo "<img src='img/".$row['profile']."' style='height: 250px;' class='my-3'>"; ?>
                                     <input type="file" name="img" class="form-control my-1">
-                                    <input type="submit" name="upload" class="btn btn-success" value="Update Profile">
+                                    <input type="submit" name="upload" class="btn btn-success" value="Cập nhật ảnh">
                                     <div class="my-3">
                                         <table class="table table-bordered">                                     
                                             <tr>
-                                                <th colspan="2" class="text-center">Detail</th>
+                                                <th colspan="2" class="text-center">Thông tin</th>
                                             </tr>
                                             <tr>
-                                                <td>Firstname</td>
+                                                <td>Tên</td>
                                                 <td><?php echo $row['firstname']; ?></td>
                                             </tr>
                                             <tr>
-                                                <td>Surname</td>
+                                                <td>Họ</td>
                                                 <td><?php echo $row['surname']; ?></td>
                                             </tr>
                                             <tr>
-                                                <td>Username</td>
+                                                <td>Tài khoản</td>
                                                 <td><?php echo $row['username']; ?></td>
                                             </tr>
                                             <tr>
@@ -84,19 +84,19 @@
                                                 <td><?php echo $row['email']; ?></td>
                                             </tr>
                                             <tr>
-                                                <td>Phone No.</td>
+                                                <td>Số điện thoại</td>
                                                 <td><?php echo $row['phone']; ?></td>
                                             </tr>
                                             <tr>
-                                                <td>Gender</td>
+                                                <td>Giới tính</td>
                                                 <td><?php echo $row['gender']; ?></td>
                                             </tr>
                                             <tr>
-                                                <td>Country</td>
+                                                <td>Quốc tịch</td>
                                                 <td><?php echo $row['country']; ?></td>
                                             </tr>
                                             <tr>
-                                                <td>Salary</td>
+                                                <td>Lương</td>
                                                 <td><?php echo "$" . $row['salary']; ?></td>
                                             </tr>
                                         </table>
@@ -105,7 +105,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <h5 class="text-center my-2">Change Username</h5>
+                                <h5 class="text-center my-2">Đổi tên tài khoản</h5>
                                 <?php 
                                     if (isset($_POST['change_uname'])) {
                                         $uname = $_POST['uname'];
@@ -119,13 +119,13 @@
                                     }
                                 ?>
                                 <form method="post">
-                                    <label>Change Username</label>
-                                    <input type="text" name="uname" class="form-control" autocomplete="off" placeholder="Enter Username"><br>
-                                    <input type="submit" name="change_uname" class="btn btn-success" value="Change Username">
+                                    <label>Đổi tên tài khoản</label>
+                                    <input type="text" name="uname" class="form-control" autocomplete="off" placeholder="Nhập tên tài khoản mới"><br>
+                                    <input type="submit" name="change_uname" class="btn btn-success" value="Xác nhận">
                                 </form>
                                 <br><br>
 
-                                <h5 class="text-center my-2">Change Password</h5>
+                                <h5 class="text-center my-2">Đổi mật khẩu</h5>
 
                                 <?php 
                                     if (isset($_POST['change_pass'])) {
@@ -138,36 +138,36 @@
                                         $row = mysqli_fetch_array($result);
 
                                         if (!password_verify($old, $row['password'])) {
-                                            echo "Old password is incorrect.";
+                                            echo "Mật khẩu cũ không đúng.";
                                         } elseif (empty($new)) {
-                                            echo "New password cannot be empty.";
+                                            echo "Mật khẩu mới không được trống.";
                                         } elseif ($new != $con) {
-                                            echo "New password and confirmation do not match.";
+                                            echo "Mật khẩu xác nhận không khớp.";
                                         } else {
                                             $new_hashed = password_hash($new, PASSWORD_DEFAULT);
                                             $update_query = "UPDATE doctor SET password = '$new_hashed' WHERE username = '$doc'";
                                             mysqli_query($connect, $update_query);
-                                            echo "Password changed successfully!";
+                                            echo "Đổi mật khẩu thành công!";
                                         }
                                     }
                                 ?>
 
                                 <form method="post">
                                     <div class="form-group">
-                                        <label>Old Password</label>
-                                        <input type="password" name="old_pass" class="form-control" autocomplete="off" placeholder="Enter Old Password">
+                                        <label>Mật khẩu cũ</label>
+                                        <input type="password" name="old_pass" class="form-control" autocomplete="off" placeholder="Nhập mật khẩu cũ">
                                     </div>
 
                                     <div class="form-group">
-                                        <label>New Password</label>
-                                        <input type="password" name="new_pass" class="form-control" autocomplete="off" placeholder="Enter New Password">
+                                        <label>Mật khẩu mới</label>
+                                        <input type="password" name="new_pass" class="form-control" autocomplete="off" placeholder="Nhập mật khẩu mới">
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Confirm Password</label>
-                                        <input type="password" name="con_pass" class="form-control" autocomplete="off" placeholder="Enter Confirm Password">
+                                        <label>Xác nhận mật khẩu mới</label>
+                                        <input type="password" name="con_pass" class="form-control" autocomplete="off" placeholder="Xác nhận mật khẩu mới">
                                     </div>
-                                    <input type="submit" name="change_pass" class="btn btn-info" value="Change Password">
+                                    <input type="submit" name="change_pass" class="btn btn-info" value="Đổi mật khẩu">
                                 </form>
                             </div>
                         </div>

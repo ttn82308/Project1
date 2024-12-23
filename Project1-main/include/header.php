@@ -22,26 +22,26 @@
 			$user = $_SESSION['admin'];
 			echo '
 			<li class = "nav-item"><a href="#" class ="nav-link text-white">'.htmlspecialchars($user) .'</a></li>
-			<li class = "nav-item"><a href="logout.php" class ="nav-link text-white">logout</a></li>
+			<li class = "nav-item"><a href="logout.php" class ="nav-link text-white">Đăng xuất</a></li>
 			';
 		}else if(isset($_SESSION['doctor'])){
 			$user = $_SESSION['doctor'];
 			echo '
 			<li class = "nav-item"><a href="#" class ="nav-link text-white">'.htmlspecialchars($user) .'</a></li>
-			<li class = "nav-item"><a href="logout.php" class ="nav-link text-white">logout</a></li>
+			<li class = "nav-item"><a href="logout.php" class ="nav-link text-white">Đăng xuất</a></li>
 			';
 		}else if(isset($_SESSION['patient'])){
 			$user = $_SESSION['patient'];
 			echo '
 			<li class = "nav-item"><a href="#" class ="nav-link text-white">'.htmlspecialchars($user) .'</a></li>
-			<li class = "nav-item"><a href="logout.php" class ="nav-link text-white">logout</a></li>
+			<li class = "nav-item"><a href="logout.php" class ="nav-link text-white">Đăng xuất</a></li>
 			';
 		}else{
 			echo '
-			<li class = "nav-item"><a href="index.php" class ="nav-link text-white">Home</a></li>
+			<li class = "nav-item"><a href="index.php" class ="nav-link text-white">Trang chủ</a></li>
 			<li class = "nav-item"><a href="adminlogin.php" class ="nav-link text-white">Admin</a></li>
-			<li class = "nav-item"><a href="doctorlogin.php" class ="nav-link text-white">Doctor</a></li>
-			<li class = "nav-item"><a href="patientlogin.php" class ="nav-link text-white">Patient</a></li>
+			<li class = "nav-item"><a href="doctorlogin.php" class ="nav-link text-white">Bác sĩ</a></li>
+			<li class = "nav-item"><a href="patientlogin.php" class ="nav-link text-white">Bệnh nhân</a></li>
 			';
 		}
 		 ?>   

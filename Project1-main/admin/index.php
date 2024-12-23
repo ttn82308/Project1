@@ -46,7 +46,7 @@ $admin_count = mysqli_num_rows($admin_query);
         </div>
         <!-- Main Content -->
         <div class="col-md-10">
-            <h4 class="my-2">Admin Dashboard</h4>
+            <h4 class="my-2">Trang chủ</h4>
             <div class="row">
                 <!-- Admin Card -->
                 <div class="col-md-3 bg-success mx-2 dashboard-card">
@@ -56,7 +56,7 @@ $admin_count = mysqli_num_rows($admin_query);
                     $admin_count = mysqli_num_rows($admin);
                      ?>
                     <h5 style="font-size: 30px;"><?php echo $admin_count; ?></h5>
-                    <h6>Total Admin</h6>
+                    <h6>Admin</h6>
                     <a href="admin.php">
                         <i class="fa fa-user-cog fa-3x dashboard-icon"></i>
                     </a>
@@ -69,7 +69,7 @@ $admin_count = mysqli_num_rows($admin_query);
                     $doctor_count = mysqli_num_rows($doctor);
                      ?>
                     <h5 style="font-size: 30px;"><?php echo $doctor_count; ?></h5>
-                    <h6>Doctors</h6>
+                    <h6>Bác sĩ</h6>
                     <a href="doctor.php">
                         <i class="fa fa-user-md fa-3x dashboard-icon"></i>
                     </a>
@@ -82,7 +82,7 @@ $admin_count = mysqli_num_rows($admin_query);
                     $patient_count = mysqli_num_rows($patient);
                      ?>
                     <h5 style="font-size: 30px;"><?php echo $patient_count; ?></h5>
-                    <h6>Patients</h6>
+                    <h6>Bệnh nhân</h6>
                     <a href="patient.php">
                         <i class="fa fa-user-injured fa-3x dashboard-icon"></i>
                     </a>
@@ -95,7 +95,7 @@ $admin_count = mysqli_num_rows($admin_query);
                     $report_count = mysqli_num_rows($report);
                      ?>
                     <h5 style="font-size: 30px;"><?php echo $report_count; ?></h5>
-                    <h6>Report</h6>
+                    <h6>Khiếu nại</h6>
                     <a href="report.php">
                         <i class="fa fa-flag fa-3x dashboard-icon"></i>
                     </a>
@@ -109,7 +109,7 @@ $admin_count = mysqli_num_rows($admin_query);
 
                      ?>
                     <h5 style="font-size: 30px;"><?php echo $request_count; ?></h5>
-                    <h6>Job Requests</h6>
+                    <h6>Đơn đăng kí</h6>
                     <a href="job_request.php">
                         <i class="fa fa-user-edit fa-3x dashboard-icon"></i>
                     </a>
@@ -123,8 +123,8 @@ $admin_count = mysqli_num_rows($admin_query);
 
                      ?>
                     <h5 style="font-size: 30px;"><?php echo $in_count; ?></h5>
-                    <h6>Incomes</h6>
-                    <a href="income.php">
+                    <h6>Thống kê doanh thu</h6>
+                    <a href="monthly_income.php">
                         <i class="fa fa-money-check-alt fa-3x dashboard-icon"></i>
                     </a>
                     
