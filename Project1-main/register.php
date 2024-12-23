@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
     if (empty($phone) || !is_numeric($phone)) $error['phone'] = "Cần nhập số điện thoại";
 
     // Validate country
-    $allowed_countries = ['America', 'Pakistan', 'China', 'Viet nam', 'Japan', 'Thailand', 'Australia', 'France', 'Germany', 'India', 'Canada', 'South Korea', 'United Kingdom', 'Italy', 'Spain', 'Russia', 'Brazil', 'Mexico', 'South Africa', 'Argentina'];
+    $allowed_countries = ['America', 'Pakistan', 'China', 'Vietnam', 'Japan', 'Thailand', 'Australia', 'France', 'Germany', 'India', 'Canada', 'South Korea', 'United Kingdom', 'Italy', 'Spain', 'Russia', 'Brazil', 'Mexico', 'South Africa', 'Argentina'];
     if (!in_array($country, $allowed_countries)) $error['country'] = "Cần chọn quốc gia bạn đang ở";
 
     // Validate password
