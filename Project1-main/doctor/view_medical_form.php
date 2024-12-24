@@ -29,6 +29,16 @@ if (isset($_GET['id'])) {
         header("Location: medical_form_list.php");
         exit;
     }
+
+    // Lấy phí khám từ bảng settings
+    $query_exam_fee = "SELECT `value` FROM settings WHERE `key` = 'consultation_fee'";
+    $result_exam_fee = mysqli_query($connect, $query_exam_fee);
+    $exam_fee = 0;
+    if ($result_exam_fee && mysqli_num_rows($result_exam_fee) > 0) {
+        $row_exam_fee = mysqli_fetch_assoc($result_exam_fee);
+        $exam_fee = (float)$row_exam_fee['value']; // Lấy phí khám từ bảng settings
+    }
+
 } else {
     $_SESSION['error'] = "Không có mã phiếu khám!";
     header("Location: medical_form_list.php");
@@ -128,8 +138,8 @@ if (isset($_GET['id'])) {
 
             <!-- Dòng tính thành tiền -->
             <h5 class="text-right">Tổng Tiền Thuốc: <?php echo number_format($total_medicine_price, 0, ',', '.') . " VND"; ?></h5>
-            <h5 class="text-right">Tiền Khám: 30.000 VND</h5>
-            <h4 class="text-right">Tổng Cộng: <?php echo number_format($total_medicine_price + 30000, 0, ',', '.') . " VND"; ?></h4>
+            <h5 class="text-right">Tiền Khám: <?php echo number_format($exam_fee, 0, ',', '.') . " VND"; ?></h5>
+            <h4 class="text-right">Tổng Cộng: <?php echo number_format($total_medicine_price + $exam_fee, 0, ',', '.') . " VND"; ?></h4>
 
         </div>
     </div>

@@ -18,6 +18,15 @@ if (isset($_SESSION['error'])) {
     unset($_SESSION['error']);
 }
 
+// Truy vấn để lấy phí khám bệnh từ bảng settings
+$query_exam_fee = "SELECT `value` FROM settings WHERE `key` = 'consultation_fee'";
+$result_exam_fee = mysqli_query($connect, $query_exam_fee);
+$exam_fee = 0;
+if ($result_exam_fee && mysqli_num_rows($result_exam_fee) > 0) {
+    $row_exam_fee = mysqli_fetch_assoc($result_exam_fee);
+    $exam_fee = (float)$row_exam_fee['value']; // Lấy phí khám từ bảng settings
+}
+
 // Truy vấn để lấy danh sách phiếu khám
 $query = "SELECT m.id, p.firstname, p.surname, m.exam_date, m.symptoms, d.loai_benh 
           FROM medical_form m 
@@ -92,10 +101,7 @@ $result = mysqli_query($connect, $query);
                                         $total_medicine_price = $total_price_row['total_medicine_price'];
                                     }
                                     
-                                    // Tiền khám cố định
-                                    $exam_fee = 30000;
-                                    
-                                    // Tổng tiền (Tiền thuốc + Tiền khám)
+                                    // Tổng tiền (Tiền thuốc + Tiền khám lấy từ cơ sở dữ liệu)
                                     $total_price = $total_medicine_price + $exam_fee;
 
                                     // Cập nhật tổng tiền vào cơ sở dữ liệu (nếu chưa cập nhật)

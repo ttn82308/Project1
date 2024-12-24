@@ -14,6 +14,7 @@
         <a href="patient.php" class="list-group-item list-group-item-action bg-info text-center text-white">Danh sách bệnh nhân</a>
         <a href="manage_appointment.php" class="list-group-item list-group-item-action bg-info text-center text-white">Quản lý số lượng lịch hẹn</a>
         <a href="manage_thuoc.php" class="list-group-item list-group-item-action bg-info text-center text-white">Quản lý thuốc</a>
+        <a href="report_thuoc.php" class="list-group-item list-group-item-action bg-info text-center text-white">Báo cáo sử dụng thuốc</a>        
     </div>
 
   
