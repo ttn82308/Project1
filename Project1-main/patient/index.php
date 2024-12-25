@@ -1,8 +1,13 @@
 <?php 
-session_start();
-include("../include/header.php");
-include("../include/connection.php");
-
+        session_start(); 
+        include ("../include/header.php");
+        include ("../include/connection.php");
+        // Kiểm tra nếu người dùng đã đăng nhập
+        if (!isset($_SESSION['patient'])) {
+            // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+            header("Location: ../patientlogin.php");
+            exit();
+        }
 // Xử lý gửi báo cáo
 if (isset($_POST['send'])) {
     $title = isset($_POST['title']) ? trim($_POST['title']) : '';

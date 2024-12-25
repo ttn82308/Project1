@@ -1,20 +1,26 @@
 <?php
-	session_start();
-	?>
+session_start();
+?>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
+	<title>Báo cáo</title>
 </head>
 <body>
 <?php 
-	include ("../include/header.php");
-	include ("../include/connection.php");
+include ("../include/header.php");
+include ("../include/connection.php");
 
- ?>
+// Kiểm tra nếu người dùng đã đăng nhập
+if (!isset($_SESSION['admin'])) {
+    // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+    header("Location: ../adminlogin.php");
+    exit();
+}
+?>
 
 <div class="container-fluid">
 		<div class="col-md-12">

@@ -9,8 +9,14 @@ session_start();
 </head>
 <body>
     <?php 
-    include("../include/header.php");
-    include("../include/connection.php");
+include ("../include/header.php");
+include ("../include/connection.php");
+// Kiểm tra nếu người dùng đã đăng nhập
+if (!isset($_SESSION['admin'])) {
+    // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+    header("Location: ../adminlogin.php");
+    exit();
+}
     ?>
     <div class="container-fluid">
         <div class="col-md-12">

@@ -1,14 +1,13 @@
 <?php
-session_start();
-include("../include/header.php");
-include("../include/connection.php");
-
-// Kiểm tra nếu admin chưa đăng nhập
+session_start(); 
+include ("../include/header.php");
+include ("../include/connection.php");
+// Kiểm tra nếu người dùng đã đăng nhập
 if (!isset($_SESSION['admin'])) {
-    header("Location: admin.php");
+    // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+    header("Location: ../adminlogin.php");
     exit();
 }
-
 // Lấy ngày từ URL
 $date = isset($_GET['date']) ? $_GET['date'] : null;
 

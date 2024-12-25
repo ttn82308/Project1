@@ -1,6 +1,4 @@
-<?php 
-    session_start();
-?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,8 +7,15 @@
 <body>
 
 <?php 
-    include("../include/header.php");
-    include("../include/connection.php");
+        session_start(); 
+        include ("../include/header.php");
+        include ("../include/connection.php");
+        // Kiểm tra nếu người dùng đã đăng nhập
+        if (!isset($_SESSION['patient'])) {
+            // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+            header("Location: ../patientlogin.php");
+            exit();
+        }
 ?>
 
 <div class="container-fluid">

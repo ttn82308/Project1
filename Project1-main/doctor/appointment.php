@@ -1,8 +1,4 @@
-<?php 
 
-session_start();
-
- ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,8 +8,15 @@ session_start();
 <body>
 
 	<?php 
-		include("../include/header.php");
-		include("../include/connection.php");
+		session_start(); 
+		include ("../include/header.php");
+		include ("../include/connection.php");
+		// Kiểm tra nếu người dùng đã đăng nhập
+		if (!isset($_SESSION['doctor'])) {
+		    // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+		    header("Location: ../doctorlogin.php");
+		    exit();
+		}
 	 ?>
 	 <div class="container-fluid">
 	 	<div class="col-md-12">

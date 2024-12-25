@@ -1,6 +1,3 @@
-<?php 
-    session_start();
-?>
 
 <!DOCTYPE html>
 <html>
@@ -10,11 +7,17 @@
     <title>Total Patient</title>
 </head>
 <body>
-
-    <?php
-    include ("../include/header.php");
-    include ("../include/connection.php");
-    ?>
+<?php
+session_start(); 
+include ("../include/header.php");
+include ("../include/connection.php");
+// Kiểm tra nếu người dùng đã đăng nhập
+if (!isset($_SESSION['admin'])) {
+    // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+    header("Location: ../adminlogin.php");
+    exit();
+}
+?>
     <div class="container-fluid">
         <div class="col-md-12">
             <div class="row">

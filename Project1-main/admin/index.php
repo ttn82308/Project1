@@ -1,8 +1,13 @@
-<?php 
-session_start();
-include("../include/header.php");
-include("../include/connection.php");
-
+<?php
+session_start(); 
+include ("../include/header.php");
+include ("../include/connection.php");
+// Kiểm tra nếu người dùng đã đăng nhập
+if (!isset($_SESSION['admin'])) {
+    // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+    header("Location: ../adminlogin.php");
+    exit();
+}
 if (!$connect) {
     die("Connection failed: " . mysqli_connect_error());
 }
