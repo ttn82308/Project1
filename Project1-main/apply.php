@@ -18,41 +18,77 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
 
     $error = [];
 
+    // Validate Họ và Tên
     if (empty($firstname)) {
         $error['fname'] = "Cần nhập họ";
+    } else if (!preg_match("/^[a-zA-ZÀ-ỹ\s]+$/u", $firstname) || strlen($firstname) < 2) {
+        $error['fname'] = "Họ phải có ít nhất 2 ký tự và không chứa ký tự đặc biệt";
     }
+
     if (empty($surname)) {
         $error['sname'] = "Cần nhập tên";
+    } else if (!preg_match("/^[a-zA-ZÀ-ỹ\s]+$/u", $surname) || strlen($surname) < 2) {
+        $error['sname'] = "Tên phải có ít nhất 2 ký tự và không chứa ký tự đặc biệt";
     }
+
+    // Validate tên tài khoản
     if (empty($username)) {
         $error['uname'] = "Cần nhập tên tài khoản";
+    } else if (preg_match("/\s/", $username) || strlen($username) < 5) {
+        $error['uname'] = "Tên tài khoản phải dài ít nhất 5 ký tự và không chứa khoảng trắng";
     }
+
+    // Validate email
     if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error['email'] = "Email không hợp lệ";
+    } else {
+        // Kiểm tra email trùng lặp
+        $query_check_email = "SELECT id FROM doctor WHERE email = ?";
+        $stmt_check_email = $connect->prepare($query_check_email);
+        $stmt_check_email->bind_param("s", $email);
+        $stmt_check_email->execute();
+        $result_email = $stmt_check_email->get_result();
+
+        if ($result_email->num_rows > 0) {
+            $error['email'] = "Email đã được đăng ký";
+        }
     }
+
+    // Validate giới tính
     if (empty($gender)) {
         $error['gender'] = "Hãy chọn giới tính";
     }
-    if (empty($phone) || !is_numeric($phone)) {
-        $error['phone'] = "Số điện thoại không hợp lệ";
+
+    // Validate số điện thoại
+    if (empty($phone) || !preg_match("/^\+?[0-9]{9,15}$/", $phone)) {
+        $error['phone'] = "Số điện thoại phải là 9-15 chữ số và có thể bao gồm mã quốc gia";
     }
+
+    // Validate quốc tịch
     if (empty($country)) {
         $error['country'] = "Hãy chọn quốc tịch";
     }
+
+    // Validate mật khẩu
     if (empty($password)) {
         $error['pass'] = "Hãy nhập mật khẩu";
-    } else if (strlen($password) < 8 || !preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password)) {
-        $error['pass'] = "Mật khẩu cần bao gồm 8 kí tự số và chữ";
+    } else if (!preg_match('/[A-Z]/', $password) || !preg_match('/[a-z]/', $password) || 
+               !preg_match('/[0-9]/', $password) || !preg_match('/[@$!%*?&]/', $password) || 
+               strlen($password) < 8) {
+        $error['pass'] = "Mật khẩu phải có ít nhất 8 ký tự, gồm chữ thường, chữ hoa, số và ký tự đặc biệt";
     }
+
+    // Xác nhận mật khẩu
     if ($password !== $confirm_password) {
         $error['con_pass'] = "Mật khẩu không khớp";
     }
 
+    // Nếu không có lỗi, tiến hành lưu vào cơ sở dữ liệu
     if (empty($error)) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         $query = "INSERT INTO doctor (firstname, surname, username, email, gender, phone, country, password, salary, data_reg, status, profile) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, NOW(), 'Pendding', 'doctor.jpg')";
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, NOW(), 'Pending', 'doctor.jpg')";
         $stmt = $connect->prepare($query);
         $stmt->bind_param("ssssssss", $firstname, $surname, $username, $email, $gender, $phone, $country, $hashed_password);
 
@@ -89,7 +125,6 @@ $countries = [
     'Mexico' => 'Mexico',
     'South Africa' => 'Nam Phi',
     'Argentina' => 'Argentina'
-    // Thêm các quốc gia khác nếu cần
 ];
 ?>
 <!DOCTYPE html>

@@ -107,7 +107,7 @@ if (!isset($_SESSION['admin'])) {
                                             $error['p'] = "Enter new password";
                                         } else if (empty($con_pass)) {
                                             $error['p'] = "Confirm password";
-                                        } else if ($old_pass != $pass) {
+                                        } else if (!password_verify($old_pass, $pass)) {
                                             $error['p'] = "Invalid old password";
                                         } else if ($new_pass != $con_pass) {
                                             $error['p'] = "Passwords do not match";

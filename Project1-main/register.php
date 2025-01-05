@@ -18,32 +18,60 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
 
     $error = [];
 
-    // Validate input fields
-    if (empty($firstname)) $error['fname'] = "Cần nhập tên";
-    if (empty($surname)) $error['sname'] = "Cần nhập họ";
-    if (empty($username)) $error['uname'] = "Cần nhập tài khoản";
-    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $error['email'] = "Cần nhập email";
+    // Validate first name
+    if (empty($firstname)) {
+        $error['fname'] = "Cần nhập tên.";
+    } elseif (!preg_match("/^[A-Za-zÀ-ỹ ]+$/u", $firstname) || strlen($firstname) < 2) {
+        $error['fname'] = "Tên phải có ít nhất 2 ký tự và không chứa ký tự đặc biệt hoặc số.";
+    }
+
+    // Validate surname
+    if (empty($surname)) {
+        $error['sname'] = "Cần nhập họ.";
+    } elseif (!preg_match("/^[A-Za-zÀ-ỹ ]+$/u", $surname) || strlen($surname) < 2) {
+        $error['sname'] = "Họ phải có ít nhất 2 ký tự và không chứa ký tự đặc biệt hoặc số.";
+    }
+
+    // Validate username
+    if (empty($username)) {
+        $error['uname'] = "Cần nhập tài khoản.";
+    } elseif (!preg_match("/^[A-Za-z0-9_]{5,}$/", $username)) {
+        $error['uname'] = "Tên tài khoản phải ít nhất 5 ký tự, chỉ chứa chữ cái, số hoặc dấu gạch dưới.";
+    }
+
+    // Validate email
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error['email'] = "Cần nhập email hợp lệ.";
+    }
 
     // Validate gender
     $allowed_genders = ['Male', 'Female', 'Other'];
-    if (!in_array($gender, $allowed_genders)) $error['gender'] = "Cần chọn giới tính";
+    if (!in_array($gender, $allowed_genders)) {
+        $error['gender'] = "Cần chọn giới tính.";
+    }
 
     // Validate phone
-    if (empty($phone) || !is_numeric($phone)) $error['phone'] = "Cần nhập số điện thoại";
+    if (empty($phone) || !preg_match("/^[0-9]{10,15}$/", $phone)) {
+        $error['phone'] = "Số điện thoại phải chỉ chứa số và có từ 10 đến 15 chữ số.";
+    }
 
     // Validate country
     $allowed_countries = ['America', 'Pakistan', 'China', 'Vietnam', 'Japan', 'Thailand', 'Australia', 'France', 'Germany', 'India', 'Canada', 'South Korea', 'United Kingdom', 'Italy', 'Spain', 'Russia', 'Brazil', 'Mexico', 'South Africa', 'Argentina'];
-    if (!in_array($country, $allowed_countries)) $error['country'] = "Cần chọn quốc gia bạn đang ở";
+    if (!in_array($country, $allowed_countries)) {
+        $error['country'] = "Cần chọn quốc gia bạn đang ở.";
+    }
 
     // Validate password
     if (empty($password)) {
         $error['pass'] = "Mật khẩu là bắt buộc.";
-    } else if (strlen($password) < 8 || !preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password)) {
-        $error['pass'] = "Mật khẩu phải có ít nhất 8 ký tự và bao gồm cả chữ cái và số.";
+    } elseif (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\W]).{8,}$/', $password)) {
+        $error['pass'] = "Mật khẩu phải có ít nhất 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt.";
     }
 
     // Confirm passwords match
-    if ($password !== $confirm_password) $error['con_pass'] = "Mật khẩu không đúng";
+    if ($password !== $confirm_password) {
+        $error['con_pass'] = "Mật khẩu không khớp.";
+    }
 
     // Proceed if no errors
     if (empty($error)) {
@@ -54,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply'])) {
         $stmt_check->execute();
         $result_check = $stmt_check->get_result();
         if ($result_check->num_rows > 0) {
-            $error['email'] = "email này đã đước đăng kí.";
+            $error['email'] = "Email này đã được đăng ký.";
         } else {
             // Hash the password
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);

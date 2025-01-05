@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "123";
-$dbname = "project1_main";
+$password = "";
+$dbname = "project1-main";
 
 // Tạo kết nối
 $connect = new mysqli($servername, $username, $password, $dbname);

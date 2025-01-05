@@ -127,7 +127,6 @@ $admin_count = mysqli_num_rows($admin_query);
                         $in_count = mysqli_num_rows($income);
 
                      ?>
-                    <h5 style="font-size: 30px;"><?php echo $in_count; ?></h5>
                     <h6>Thống kê doanh thu</h6>
                     <a href="monthly_income.php">
                         <i class="fa fa-money-check-alt fa-3x dashboard-icon"></i>
